@@ -43,6 +43,9 @@ var vid1 = document.querySelector('#vid1');
 var remoteVideoFrontal = document.querySelector('#remoteVideoFrontal');
 var remoteVideoOmni = document.querySelector('#remoteVideoOmni');
 
+var changeEmotionButton = document.querySelector('button#changeEmotionButton');
+changeEmotionButton.onclick = changeEmotion;
+
 
 var audioTracks;
 var webAudio;
@@ -751,6 +754,12 @@ function CabezaNormal() {
 function CabezaAbajo() {
   var data = 'ACTUAR:CABEZAABAJO';
   //dataChannelSend.value = data;
+  sendChannel.send(data);
+  trace(user + ' envia dato: ' + data);
+}
+
+function changeEmotion() {
+  var data = 'ROBICO:CHANGE';
   sendChannel.send(data);
   trace(user + ' envia dato: ' + data);
 }

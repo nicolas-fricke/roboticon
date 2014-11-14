@@ -13,6 +13,10 @@ var rtpSelect = document.querySelector('input#useRtp');
 var startButton = document.querySelector('button#startButton');
 var sendButton = document.querySelector('button#sendButton');
 var closeButton = document.querySelector('button#closeButton');
+
+var iconButton = document.querySelector('button#iconButton');
+iconButton.onclick = hide_show;
+
 ////////////////////////////////////////////
 // Variables para botones de control del robot
 ////////////////////////////////////////////////
@@ -46,6 +50,7 @@ dataChannelSend.onkeypress = handleSendKeyPress;
 rtpSelect.onclick = enableStartButton;
 sctpSelect.onclick = enableStartButton;
 */
+
 
 var user='robot';
 var isChannelReady;
@@ -145,7 +150,8 @@ socket.on('created', function (room){
     getUserMedia(constraints, handleUserMediaDummy, handleUserMediaDummyError);
     videoSources.forEach(function (video_source) {
        //console.log("video_sources for each..." + video_source.label);
-	   if (video_source.label === 'Logitech QuickCam Pro 5000 (046d:08c5)' || video_source.label === 'Microsoft LifeCam VX-3000 (045e:00f5)') {
+	   if (true) {
+	   //	   if (video_source.label === 'Logitech QuickCam Pro 5000 (046d:08c5)' || video_source.label === 'Microsoft LifeCam VX-3000 (045e:00f5)') {
             //console.log("entro a camara frontal logitech con id..." + video_source.id);
             //GetUserMedia de camara frontal
             //basic constraints
@@ -616,6 +622,10 @@ function onReceiveMessageCallback(event) {
     console.log(user + ' HABLAR ' + dataChannelReceive.value.substr(7,dataChannelReceive.value.length))
     speak(dataChannelReceive.value.substr(7,dataChannelReceive.value.length));
   }
+  else if (dataChannelReceive.value.substr(0, 7) === 'ROBICO:'){
+    console.log(user + ' ROBICO ' + dataChannelReceive.value.substr(7,dataChannelReceive.value.length))
+    hide_show();
+  }
   
 }
 
@@ -698,3 +708,21 @@ function sendDataReverse() {
   sendChannel.send(data);
   trace(user + ' envia dato: ' + data);
 }
+
+function hide_show() {
+  console.log('hide_show function was called');
+  var ele = document.getElementById("textIcon");
+  
+  console.log(ele.style.visibility);
+  //ele.style.visibility = "hidden";
+
+  if (ele.style.visibility=='visible' || ele.style.visibility==''){
+    ele.style.visibility="hidden";
+    console.log('hide_show 1');
+  } else {
+    ele.style.visibility="visible";
+    console.log('hide_show 2');
+  }
+}
+
+

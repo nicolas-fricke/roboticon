@@ -488,6 +488,10 @@ function onReceiveMessageCallback(event) {
     console.log(user + ' HABLAR ' + dataChannelReceive.value.substr(7,dataChannelReceive.value.length))
     speak(dataChannelReceive.value.substr(7,dataChannelReceive.value.length));
   }
+  else if (dataChannelReceive.value.substr(0, 7) === 'ROBICO:'){
+    console.log(user + ' ROBICO ' + dataChannelReceive.value.substr(7,dataChannelReceive.value.length))
+    hide_show();
+  }
   
 }
 
