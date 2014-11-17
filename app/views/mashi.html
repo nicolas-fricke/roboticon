@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MashiFace by Roboticon</title>
+    <script src='https://code.jquery.com/jquery-2.1.1.min.js'></script>
+    <style>
+      body {
+        background-color: black;
+      }
+
+      .face {
+        display: block;
+        margin: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- <h1>MashiFace</h1> -->
+    <div class="container">
+      <object id="face-container" class="face" data="../../assets/faces/face_calvin_merge2.svg" type="image/svg+xml">
+        <p class="fallback-message">Sorry, something went wrong.</p>
+      </object>
+    </div>
+    <script>
+    var svgRoot;
+
+    $('.face').height($(document).height() - 20);
+
+    setFace = function(emotion) {
+      console.log(emotion + " face!!")
+      $('.emotion', svgRoot).hide();
+      $('.' + emotion, svgRoot).show();
+    }
+
+    keypressed = function(e) {
+      switch (e.keyCode) {
+        case 81: // q
+        console.log('`q` pressed');
+        setFace('happy');
+        break;
+        case 87: // w
+        console.log('`w` pressed');
+        setFace('angry');
+        break;
+        case 69: // e
+        console.log('`e` pressed');
+        setFace('sad');
+        break;
+        case 82: // r
+        console.log('`r` pressed');
+        setFace('scared');
+        break;
+        case 84: // r
+        console.log('`r` pressed');
+        setFace('neutral');
+        break;
+      }
+    }
+
+    $('#face-container').load(function(){
+      svgRoot = $('#face-container').contents();
+    });
+
+
+    $(document).ready(function() {
+      $(document).keydown(keypressed);
+    });
+    </script>
+  </body>
+</html>
