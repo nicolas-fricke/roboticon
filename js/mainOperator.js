@@ -22,20 +22,20 @@ var closeButton = document.querySelector('button#closeButton');
 
 var forwardButton = document.querySelector('button#forward');
 var leftButton = document.querySelector('button#left');
-var stopButton = document.querySelector('button#stop');
+//var stopButton = document.querySelector('button#stop');
 var rightButton = document.querySelector('button#right');
 var reverseButton = document.querySelector('button#reverse');
 
-var CabezaArribaButton = document.querySelector('button#CabezaArriba');
-var CabezaNormalButton = document.querySelector('button#CabezaNormal');
-var CabezaAbajoButton = document.querySelector('button#CabezaAbajo');
+//var CabezaArribaButton = document.querySelector('button#CabezaArriba');
+//var CabezaNormalButton = document.querySelector('button#CabezaNormal');
+//var CabezaAbajoButton = document.querySelector('button#CabezaAbajo');
 
 
 
-var carButton = document.querySelector('button#carButton');
-var beatButton = document.querySelector('button#beatButton');
-var loveButton = document.querySelector('button#loveButton');
-var emotionsCheckbox = document.querySelector('checkbox#emotionsCheckbox');
+//var carButton = document.querySelector('button#carButton');
+//var beatButton = document.querySelector('button#beatButton');
+//var loveButton = document.querySelector('button#loveButton');
+var emotionsCheckbox = document.querySelector('input#emotionsCheckbox');
 ////////////////////////////////////////////////////
 
 var localVideo = document.querySelector('#localVideo');
@@ -56,14 +56,14 @@ var filteredStream;
 sendButton.onclick = sendData;
 forwardButton.onclick = sendDataForward;
 leftButton.onclick = sendDataLeft;
-stopButton.onclick = sendDataStop;
+//stopButton.onclick = sendDataStop;
 rightButton.onclick = sendDataRight;
 reverseButton.onclick = sendDataReverse;
 
-emotionsCheckbox.onclick = activateEmotions;
-carButton.onclick = playSoundCar;
-beatButton.onclick = playSoundBeat;
-loveButton.onclick = playLove;
+emotionsCheckbox.onclick = toggleEmotions;
+//carButton.onclick = playSoundCar;
+//beatButton.onclick = playSoundBeat;
+//loveButton.onclick = playLove;
 
 dataChannelSend.onkeypress = handleSendKeyPress;
 keyControl.onkeypress = handleKeyControl;
@@ -71,9 +71,9 @@ keyControl.onkeypress = handleKeyControl;
 ////////////////////////////////////////////////////
 //BOTONES CONTROL CABEZA
 ////////////////////////////////////////////////////
-CabezaArribaButton.onclick = CabezaArriba;
-CabezaNormalButton.onclick = CabezaNormal;
-CabezaAbajoButton.onclick = CabezaAbajo;
+//CabezaArribaButton.onclick = CabezaArriba;
+//CabezaNormalButton.onclick = CabezaNormal;
+//CabezaAbajoButton.onclick = CabezaAbajo;
 
 
 /*closeButton.onclick = closeDataChannels;
@@ -610,10 +610,6 @@ function onReceiveMessageCallback(event) {
 }
 
 
-
-
-
-
 function onSendChannelStateChange() {
   var readyState = sendChannel.readyState;
   trace('Send channel state is: ' + readyState);
@@ -916,3 +912,7 @@ function playSoundBeat() {
     return window.peer.stream;
   }
 
+ function toggleEmotions()
+ {
+		document.getElementById("sendButton").disabled = true;
+ }
