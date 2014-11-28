@@ -242,8 +242,7 @@ $(document).ready(function() {
 $('#face-container').load(function() {
   snap = Snap('#face-container');
   setFaces();
-  clearTimeout(blinkingTimeout);
-  blinkEyesInIntervals();
+  updateBlinkingInterval(blinkingInterval);
 
   $(document).keydown(keypressed);
 })
