@@ -103,15 +103,8 @@
       }, duration, mina.easeinout);
     }
 
-    setFaceAnimated = function(emotion) {
-      duration = 100;
-      animateEyelids(0.5, duration);
-      animateMouth(emotion, duration);
-    };
-
     setFace = function(emotion) {
       console.log(emotion + " face!!");
-      setFaceAnimated(emotion);
     }
 
     parseAndApplyJson = function(json) {
