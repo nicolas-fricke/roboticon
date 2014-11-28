@@ -106,9 +106,7 @@
     setFaceAnimated = function(emotion) {
       duration = 100;
       animateEyelids(0.5, duration);
-      if (duration == undefined) duration = 100;
       animateMouth(emotion, duration);
-      if (duration == undefined) duration = 100;
     };
 
     setFace = function(emotion) {
@@ -125,13 +123,10 @@
           if (input.eyebrows[side]) {
             if (new_shape = input.eyebrows[side].shape)
               animateEyebrowsShape(new_shape, duration);
-      if (duration == undefined) duration = 100;
             if (rotation = input.eyebrows[side].rotation)
               animateEyebrowsTurn(rotation, duration);
-      if (duration == undefined) duration = 100;
             if (height = input.eyebrows[side].height)
               animateEyebrowsHeight(height, duration);
-      if (duration == undefined) duration = 100;
           }
         })
         if (new_color = input.eyebrows.color)
@@ -142,7 +137,6 @@
         ['left', 'right'].forEach(function(side){
           if (input.eyelids[side]) {
             if (height = input.eyelids[side].height) animateEyelids(height, duration);
-      if (duration == undefined) duration = 100;
           }
         })
       }
@@ -153,7 +147,6 @@
             if (input.eyeballs[side].position) {
               if ((direction = input.eyeballs[side].position.direction) && (intensity = input.eyeballs[side].position.intensity))
                 animateEyeballsDirection(direction, intensity, duration);
-      if (duration == undefined) duration = 100;
             }
             if (new_color = input.eyeballs[side].color)
               console.warn('Color changing for eyeballs is not yet implemented.');
@@ -164,7 +157,6 @@
       if (input.mouth) {
         if (emotion = input.mouth.emotion)
           animateMouth(emotion, duration);
-      if (duration == undefined) duration = 100;
       }
 
       if (input.hair) {
