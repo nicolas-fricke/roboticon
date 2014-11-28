@@ -3,6 +3,8 @@
   <head>
     <title>MashiFace by Roboticon</title>
     <script src='https://code.jquery.com/jquery-2.1.1.min.js'></script>
+
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.3.0/snap.svg-min.js'></script>
     <style>
       body {
         background-color: black;
@@ -17,19 +19,149 @@
   <body>
     <!-- <h1>MashiFace</h1> -->
     <div class="container">
-      <object id="face-container" class="face" data="../../assets/faces/face_calvin_merged.svg" type="image/svg+xml">
+      <object id="face-container" class="face" data="../../assets/faces/face_calvin.svg" type="image/svg+xml">
         <p class="fallback-message">Sorry, something went wrong.</p>
       </object>
     </div>
     <script>
     var svgRoot;
+    var snap;
+    var face;
+    var templates;
 
-    $('.face').height($(document).height() - 20);
+    animateEyeballsDirection = function(degrees, intensities, duration) {
+      // The eyes can move within a circle of 18
+      if (typeof degrees === 'number') degrees = {left: degrees, right: degrees};
+      if (typeof intensities === 'number') intensities = {left: intensities, right: intensities};
+
+      Object.keys(degrees).forEach(function(side) {
+        x = Math.sin(degrees[side] * Math.PI / 180) * 18 * intensities[side];
+        y = Math.cos(degrees[side] * Math.PI / 180) * 18 * intensities[side];
+
+        face.eyeballs[side].group.animate({
+          transform: (new Snap.Matrix()).translate(x, y)
+        }, duration, mina.easein);
+      })
+    }
+
+    animateEyebrowsShape = function(new_shapes, duration) {
+      if (typeof new_shapes === 'string') new_shapes = {left: new_shapes, right: new_shapes};
+
+      Object.keys(new_shapes).forEach(function(side) {
+        face.eyebrows[side].animate({
+          d: templates.eyebrows[side][new_shapes[side]].attr('d')
+        }, duration, mina.easeinout);
+      })
+    }
+
+    animateEyebrowsTurn = function(degrees, duration) {
+      if (typeof degrees === 'number') degrees = {left: degrees, right: -degrees};
+
+      Object.keys(degrees).forEach(function(side) {
+        boundingBox = face.eyebrows[side].getBBox();
+        face.eyebrows[side].animate({
+          transform: (new Snap.Matrix()).rotate(degrees[side], boundingBox.cx, boundingBox.cy)
+        }, duration, mina.easeout)
+      })
+    }
+
+    animateEyebrowsHeight = function(heights, duration) {
+      if (typeof heights === 'number') heights = {left: heights, right: heights};
+
+      Object.keys(heights).forEach(function(side) {
+        // -19 is the lowest good looking position for the eyebrows,
+        // +10 is the highest one, therefore norm height to:
+        height = - (heights[side] * 29 - 10);
+
+        face.eyebrows[side].animate({
+          transform: (new Snap.Matrix()).translate(0, height)
+        }, duration, mina.easeout)
+      })
+    }
+
+    animateEyelids = function(openess, duration) {
+      if (typeof openess === 'number') openess = {left: openess, right: openess};
+
+      Object.keys(openess).forEach(function(side) {
+        translation = new Snap.Matrix();
+        translation.translate(0, openess[side] * 52);
+        face.eyelids[side].animate({
+          transform: translation
+        }, duration, mina.easeout);
+      })
+    }
+
+    animateMouth = function(emotion, duration) {
+      face.mouth.animate({
+        d: templates.mouth[emotion].attr('d')
+      }, duration, mina.easeinout);
+    }
+
+    setFaceAnimated = function(emotion) {
+      duration = 100;
+      animateEyelids(0.5, duration);
+      animateMouth(emotion, duration);
+    };
 
     setFace = function(emotion) {
-      console.log(emotion + " face!!")
-      $('.emotion', svgRoot).hide();
-      $('.' + emotion, svgRoot).show();
+      console.log(emotion + " face!!");
+      setFaceAnimated(emotion);
+    }
+
+    parseAndApplyJson = function(json) {
+      i = input = JSON.parse(json);
+      duration = 100;
+
+      if (input.eyebrows) {
+        ['left', 'right'].forEach(function(side){
+          if (input.eyebrows[side]) {
+            if (new_shape = input.eyebrows[side].shape)
+              animateEyebrowsShape(new_shape, duration);
+            if (rotation = input.eyebrows[side].rotation)
+              animateEyebrowsTurn(rotation, duration);
+            if (height = input.eyebrows[side].height)
+              animateEyebrowsHeight(height, duration);
+          }
+        })
+        if (new_color = input.eyebrows.color)
+          console.warn('Color changing for eyebrows is not yet implemented.');
+      }
+
+      if (input.eyelids) {
+        ['left', 'right'].forEach(function(side){
+          if (input.eyelids[side]) {
+            if (height = input.eyelids[side].height) animateEyelids(height, duration);
+          }
+        })
+      }
+
+      if (input.eyeballs) {
+        ['left', 'right'].forEach(function(side){
+          if (input.eyeballs[side]) {
+            if (input.eyeballs[side].position) {
+              if ((direction = input.eyeballs[side].position.direction) && (intensity = input.eyeballs[side].position.intensity))
+                animateEyeballsDirection(direction, intensity, duration);
+            }
+            if (new_color = input.eyeballs[side].color)
+              console.warn('Color changing for eyeballs is not yet implemented.');
+          }
+        })
+      }
+
+      if (input.mouth) {
+        if (emotion = input.mouth.emotion)
+          animateMouth(emotion, duration);
+      }
+
+      if (input.hair) {
+        if (new_color = input.hair.color)
+          console.warn('Color changing for hair is not yet implemented.');
+      }
+
+      if (input.skin) {
+        if (new_color = input.skin.color)
+          console.warn('Color changing for skin is not yet implemented.');
+      }
     }
 
     keypressed = function(e) {
@@ -48,7 +180,7 @@
         break;
         case 82: // r
         console.log('`r` pressed');
-        setFace('scared');
+        setFace('uncertain');
         break;
         case 84: // r
         console.log('`r` pressed');
@@ -57,14 +189,56 @@
       }
     }
 
+    setFaces = function() {
+      face = {
+        eyebrows: {
+          left: snap.select('#eyebrow-left-animated'),
+          right: snap.select('#eyebrow-right-animated')
+        },
+        eyelids: {
+          left: snap.select('#eye-left-lid'),
+          right: snap.select('#eye-right-lid')
+        },
+        eyeballs: {
+          left: {
+            iris: snap.select('#eye-left-iris'),
+            pupil: snap.select('#eye-left-pupil'),
+            group: snap.select('#eyeball-left')
+          },
+          right: {
+            iris: snap.select('#eye-right-iris'),
+            pupil: snap.select('#eye-right-pupil'),
+            group: snap.select('#eyeball-right')
+          }
+        },
+        mouth: snap.select('#mouth-animated')
+      };
+
+      templates = {eyebrows: {left: {}, right: {}}, mouth: {}};
+      ['neutral', 'happy', 'angry', 'sad', 'uncertain'].forEach(function(emotion) {
+        templates.mouth[emotion] = snap.select('#mouth-' + emotion)
+      });
+      ['angular', 'round'].forEach(function(shape) {
+          templates.eyebrows.left[shape] = snap.select('#eyebrow-left-' + shape);
+          templates.eyebrows.right[shape] = snap.select('#eyebrow-right-' + shape);
+      });
+    }
+
     $('#face-container').load(function(){
       svgRoot = $('#face-container').contents();
     });
 
 
     $(document).ready(function() {
-      $(document).keydown(keypressed);
+      $('.face').height($(document).height() - 20);
     });
+
+    $('#face-container').load(function() {
+      snap = Snap('#face-container');
+      setFaces();
+
+      $(document).keydown(keypressed);
+    })
     </script>
   </body>
 </html>
