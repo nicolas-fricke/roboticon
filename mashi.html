@@ -38,7 +38,7 @@
         x = Math.sin(degrees[side] * Math.PI / 180) * 18 * intensities[side];
         y = Math.cos(degrees[side] * Math.PI / 180) * 18 * intensities[side];
 
-        face.eyeballs[side].group.animate({
+        face.eyeballs[side].group.stop().animate({
           transform: (new Snap.Matrix()).translate(x, y)
         }, duration, mina.easein);
       })
@@ -48,7 +48,7 @@
       if (typeof new_shapes === 'string') new_shapes = {left: new_shapes, right: new_shapes};
 
       Object.keys(new_shapes).forEach(function(side) {
-        face.eyebrows[side].animate({
+        face.eyebrows[side].stop().animate({
           d: templates.eyebrows[side][new_shapes[side]].attr('d')
         }, duration, mina.easeinout);
       })
@@ -59,7 +59,7 @@
 
       Object.keys(degrees).forEach(function(side) {
         boundingBox = face.eyebrows[side].getBBox();
-        face.eyebrows[side].animate({
+        face.eyebrows[side].stop().animate({
           transform: (new Snap.Matrix()).rotate(degrees[side], boundingBox.cx, boundingBox.cy)
         }, duration, mina.easeout)
       })
@@ -73,7 +73,7 @@
         // +10 is the highest one, therefore norm height to:
         height = - (heights[side] * 29 - 10);
 
-        face.eyebrows[side].animate({
+        face.eyebrows[side].stop().animate({
           transform: (new Snap.Matrix()).translate(0, height)
         }, duration, mina.easeout)
       })
@@ -85,14 +85,14 @@
       Object.keys(openess).forEach(function(side) {
         translation = new Snap.Matrix();
         translation.translate(0, openess[side] * 52);
-        face.eyelids[side].animate({
+        face.eyelids[side].stop().animate({
           transform: translation
         }, duration, mina.easeout);
       })
     }
 
     animateMouth = function(emotion, duration) {
-      face.mouth.animate({
+      face.mouth.stop().animate({
         d: templates.mouth[emotion].attr('d')
       }, duration, mina.easeinout);
     }
