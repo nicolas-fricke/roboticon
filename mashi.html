@@ -23,7 +23,6 @@
       </object>
     </div>
     <script>
-    var svgRoot;
     var snap;
     var face;
     var templates;
@@ -260,11 +259,6 @@
           templates.eyebrows.right[shape] = snap.select('#eyebrow-right-' + shape);
       });
     }
-
-    $('#face-container').load(function(){
-      svgRoot = $('#face-container').contents();
-    });
-
 
     $(document).ready(function() {
       $('.face').height($(document).height() - 20);
