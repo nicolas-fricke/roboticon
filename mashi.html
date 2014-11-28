@@ -27,6 +27,15 @@
     var snap;
     var face;
     var templates;
+    var blinkingInterval = 4000;
+    var blinkingTimeout;
+
+    ensureWithinRange = function(variable, min, max) {
+      // default values
+      if (min === undefined) min = 0;
+      if (max === undefined) max = 1;
+      return Math.min(Math.max(variable, min), max);
+    }
 
     animateEyeballsDirection = function(degrees, intensities, duration) {
       if (duration == undefined) duration = 100;
@@ -35,8 +44,8 @@
       if (typeof intensities === 'number') intensities = {left: intensities, right: intensities};
 
       Object.keys(degrees).forEach(function(side) {
-        x = Math.sin(degrees[side] * Math.PI / 180) * 18 * intensities[side];
-        y = Math.cos(degrees[side] * Math.PI / 180) * 18 * intensities[side];
+        x = Math.sin(degrees[side] * Math.PI / 180) * 18 * ensureWithinRange(intensities[side]);
+        y = Math.cos(degrees[side] * Math.PI / 180) * 18 * ensureWithinRange(intensities[side]);
 
         face.eyeballs[side].group.stop().animate({
           transform: (new Snap.Matrix()).translate(x, y)
@@ -74,7 +83,7 @@
       Object.keys(heights).forEach(function(side) {
         // -19 is the lowest good looking position for the eyebrows,
         // +10 is the highest one, therefore norm height to:
-        height = - (heights[side] * 29 - 10);
+        height = - (ensureWithinRange(heights[side]) * 29 - 10);
 
         face.eyebrows[side].stop().animate({
           transform: (new Snap.Matrix()).translate(0, height)
@@ -82,13 +91,17 @@
       })
     }
 
-    animateEyelids = function(openess, duration) {
+    animateEyelids = function(closedness, duration) {
       if (duration == undefined) duration = 100;
-      if (typeof openess === 'number') openess = {left: openess, right: openess};
+      if (typeof closedness === 'number') closedness = {left: closedness, right: closedness};
 
-      Object.keys(openess).forEach(function(side) {
-        translation = new Snap.Matrix();
-        translation.translate(0, openess[side] * 52);
+      Object.keys(closedness).forEach(function(side) {
+        if (typeof closedness[side] === 'number') {
+          translation = new Snap.Matrix();
+          translation.translate(0, ensureWithinRange(closedness[side]) * 52);
+        } else {
+          translation = closedness[side];
+        };
         face.eyelids[side].stop().animate({
           transform: translation
         }, duration, mina.easeout);
@@ -106,6 +119,30 @@
       console.log(emotion + " face!!");
     }
 
+    blinkEyes = function() {
+      closingDuration = 50;
+      closedDuration = 100;
+      openingDuration = 80;
+
+      normalOpeness = {};
+      ['left', 'right'].forEach(function(side) {
+        normalOpeness[side] = face.eyelids[side].attr('transform').toString();
+      })
+      animateEyelids(1, closingDuration);
+      setTimeout(function(){animateEyelids(normalOpeness, openingDuration)}, closingDuration + closedDuration);
+    }
+
+    blinkEyesInIntervals = function() {
+      blinkEyes();
+      blinkingTimeout = setTimeout(blinkEyesInIntervals, blinkingInterval);
+    }
+
+    updateBlinkingInterval = function(newBlinkingInterval) {
+      clearTimeout(blinkingTimeout);
+      blinkingInterval = newBlinkingInterval;
+      setTimeout(blinkEyesInIntervals, newBlinkingInterval / 2);
+    }
+
     parseAndApplyJson = function(json) {
       i = input = JSON.parse(json);
       duration = 100;
@@ -120,7 +157,7 @@
             if (height = input.eyebrows[side].height)
               animateEyebrowsHeight(height, duration);
           }
-        })
+        });
         if (new_color = input.eyebrows.color)
           console.warn('Color changing for eyebrows is not yet implemented.');
       }
@@ -130,7 +167,9 @@
           if (input.eyelids[side]) {
             if (height = input.eyelids[side].height) animateEyelids(height, duration);
           }
-        })
+        });
+        if (newBlinkingInterval = input.eyelids.blinking_interval)
+          updateBlinkingInterval(newBlinkingInterval);
       }
 
       if (input.eyeballs) {
@@ -143,7 +182,7 @@
             if (new_color = input.eyeballs[side].color)
               console.warn('Color changing for eyeballs is not yet implemented.');
           }
-        })
+        });
       }
 
       if (input.mouth) {
@@ -234,6 +273,8 @@
     $('#face-container').load(function() {
       snap = Snap('#face-container');
       setFaces();
+      clearTimeout(blinkingTimeout);
+      blinkEyesInIntervals();
 
       $(document).keydown(keypressed);
     })
