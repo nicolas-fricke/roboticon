@@ -914,5 +914,7 @@ function playSoundBeat() {
 
  function toggleEmotions()
  {
-		document.getElementById("sendButton").disabled = true;
+ 		  console.log('Hello!');
+
+		sendButton.disabled = true;
  }

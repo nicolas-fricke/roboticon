@@ -145,7 +145,8 @@ socket.on('created', function (room){
     getUserMedia(constraints, handleUserMediaDummy, handleUserMediaDummyError);
     videoSources.forEach(function (video_source) {
        //console.log("video_sources for each..." + video_source.label);
-	   if (video_source.label === 'Logitech QuickCam Pro 5000 (046d:08c5)' || video_source.label === 'Microsoft LifeCam VX-3000 (045e:00f5)') {
+	   if (true) {
+	   //	   if (video_source.label === 'Logitech QuickCam Pro 5000 (046d:08c5)' || video_source.label === 'Microsoft LifeCam VX-3000 (045e:00f5)') {
             //console.log("entro a camara frontal logitech con id..." + video_source.id);
             //GetUserMedia de camara frontal
             //basic constraints
