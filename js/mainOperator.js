@@ -753,6 +753,14 @@ function CabezaAbajo() {
   trace(user + ' envia dato: ' + data);
 }
 
+function changeEmotion() {
+  var jsonFace = 'asdf';
+  var s="\'{\n \"eyebrows\": {\n \"left\": {\n \"shape\": (\"round\"),\n \"rotation\": (60),\n \"height\": (0.4)\n },\n \"right\": {\n \"shape\": (\"cornered\"),\n \"rotation\": (60),\n \"height\": (0.4)\n },\n \"color\": \"#e5c413\"\n },\n \"eyelids\": {\n \"left\": {\n \"height\": (0.7)\n },\n \"right\": {\n \"height\": (0.7)\n }\n },\n \"eyeballs\": {\n \"left\": {\n \"position\": {\n \"direction\": (60),\n \"intensity\": (0.5)\n },\n \"color\": \"#cc0066\"\n },\n \"right\": {\n \"position\": {\n \"direction\": (60),\n \"intensity\": (0.5)\n },\n \"color\": \"#cc0066\"\n }\n },\n \"mouth\": {\n \"emotion\": (\"neutral\")\n },\n \"hair\": {\n \"color\": \"#cc0066\"\n },\n \"skin\": {\n \"color\": \"#e5c413\"\n }\n}\'";
+  var data = 'ROBICO:'+s;
+  sendChannel.send(data);
+  trace(user + ' envia dato: ' + data);
+}
+
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////
