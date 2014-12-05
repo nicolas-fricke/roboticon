@@ -770,14 +770,6 @@ function CabezaAbajo() {
 }
 
 
-
-function sendHappy(){}
-function sendSad(){}
-function sendAngry(){}
-function sendUncertain(){}
-function sendNeutral(){}
-function sendSleepy(){}
-
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////
@@ -994,10 +986,78 @@ function playSoundBeat() {
 
 
 
-function changeEmotion() {
-  var jsonFace = 'asdf';
-  var s="\'{\n \"eyebrows\": {\n \"left\": {\n \"shape\": (\"round\"),\n \"rotation\": (60),\n \"height\": (0.4)\n },\n \"right\": {\n \"shape\": (\"cornered\"),\n \"rotation\": (60),\n \"height\": (0.4)\n },\n \"color\": \"#e5c413\"\n },\n \"eyelids\": {\n \"left\": {\n \"height\": (0.7)\n },\n \"right\": {\n \"height\": (0.7)\n }\n },\n \"eyeballs\": {\n \"left\": {\n \"position\": {\n \"direction\": (60),\n \"intensity\": (0.5)\n },\n \"color\": \"#cc0066\"\n },\n \"right\": {\n \"position\": {\n \"direction\": (60),\n \"intensity\": (0.5)\n },\n \"color\": \"#cc0066\"\n }\n },\n \"mouth\": {\n \"emotion\": (\"neutral\")\n },\n \"hair\": {\n \"color\": \"#cc0066\"\n },\n \"skin\": {\n \"color\": \"#e5c413\"\n }\n}\'";
+function sendHappy(){
+  setEmotionValues({
+    eyebrowsShape: "angular", 
+    eyebrowsRotation: 60, 
+    eyebrowsHeight: 0.3
+  });
+}
+
+function sendSad(){
+  setEmotionValues({}); 
+}
+
+function sendAngry(){
+  setEmotionValues({});
+}
+
+function sendUncertain(){
+  setEmotionValues({}); 
+}
+
+function sendNeutral(){
+  setEmotionValues({});
+}
+
+function sendSleepy(){
+  setEmotionValues({});
+}
+
+function setEmotionValues(emotionValues) {
+  var defaultEmotionValues = {
+    eyebrowsShape: "round", 
+    eyebrowsRotation: 90, 
+    eyebrowsHeight: 0.5, 
+    eyelidsHeight: 0.5,
+    eyeballsDirection: 60,
+    eyeballsIntensity: 0.5
+  };
+
+  var mergedValues = jQuery.extend(true, {}, defaultEmotionValues, emotionValues)
+  var jsonChanges = { eyebrows: {
+                        shapes: {
+                          both_sides: mergedValues.eyebrowsShape
+                        },
+                        transform: {
+                          both_sides: {
+                            rotation: mergedValues.eyebrowsRotation,
+                            height: mergedValues.eyebrowsHeight
+                          }  
+                        },
+                      },
+                      eyelids: {
+                        heights: {
+                          both_sides: mergedValues.eyelidsHeight
+                        },
+                      },
+                      eyeballs: {
+                        positions: {
+                          both_sides: {
+                            direction: mergedValues.eyeballsDirection,
+                            intensity: mergedValues.eyeballsIntensity
+                          },
+                        },
+                      }
+                    }; 
+
+  changeEmotion(jsonChanges);
+}
+
+function changeEmotion(jsonChanges) {
+  var s = JSON.stringify(jsonChanges);
   var data = 'ROBICO:'+s;
   sendChannel.send(data);
   trace(user + ' envia dato: ' + data);
 }
+
