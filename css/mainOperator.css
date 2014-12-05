@@ -50,7 +50,7 @@ html {
  
  #localVideoPanel{
  	  height: 200px;
-	/*width: 800px; */
+	width: 400px; 
 	margin: 25px;  
 	position: relative;
 	border: 1px solid #000000  /*#f85f12;*/
@@ -108,7 +108,7 @@ html {
 
 #controlPanel {
 	margin: 25px;
-	margin-left: 80px;
+	margin-left: 60px;
 	border: 1px solid #000000 /*#41a629;*/
 	float:left;
 }
