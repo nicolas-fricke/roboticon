@@ -31,7 +31,7 @@ html {
 	/*margin: 0 auto; */
  }
  #localVideo {
-    /*height: 200px;*/
+    height: 200px;
 	/*width: 800px; */
 	/*position: relative;*/
 	/*margin: 0 auto; */
@@ -49,13 +49,17 @@ html {
  }
  
  #localVideoPanel{
- 	  height: 200px;
-	width: 400px; 
+ 	  height: 202px;
+	width: 358px; 
 	margin: 25px;  
 	position: relative;
 	border: 1px solid #000000  /*#f85f12;*/
 	/*margin: 0 auto; */
  }
+ 
+ #robotFrame{
+   height: 200px;
+	width: 356px; }
  
 .LOGOS {
 	/*height: 80px;*/
@@ -97,7 +101,7 @@ html {
   font-size: 1.5em;
   float: left;
   /*border-radius: 2px;*/
-  border: 1px solid #000000 /*#41a629;*/
+  /*border: 1px solid #000000 /*#41a629;*/
   /*box-shadow: 0 2px 3px rgba(0,0,0,0.1) inset;*/
   
 }

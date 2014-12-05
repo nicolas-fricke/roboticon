@@ -19,6 +19,7 @@ var rtpSelect = document.querySelector('input#useRtp');
 var startButton = document.querySelector('button#startButton');
 var sendButton = document.querySelector('button#sendButton');
 var closeButton = document.querySelector('button#closeButton');
+var container = document.querySelector('div#container');
 
 var forwardButton = document.querySelector('button#forward');
 var leftButton = document.querySelector('button#left');
@@ -36,8 +37,8 @@ var intensity = document.querySelector('input#intensity');
 var intensityLabel = document.querySelector('label#intensityLabel');
 
 var localVideoPanel = document.querySelector('div#localVideoPanel');
-var localVideo = document.querySelector('div#localVideo');
-
+var localVideo = document.querySelector('video#localVideo');
+var robotFrame = document.querySelector('iframe#robotFrame');
 
 //var CabezaArribaButton = document.querySelector('button#CabezaArriba');
 //var CabezaNormalButton = document.querySelector('button#CabezaNormal');
@@ -49,6 +50,7 @@ var localVideo = document.querySelector('div#localVideo');
 //var beatButton = document.querySelector('button#beatButton');
 //var loveButton = document.querySelector('button#loveButton');
 var emotionsCheckbox = document.querySelector('input#emotionsCheckbox');
+var emotionsCheckbox = document.querySelector('input#controlCheckbox');
 ////////////////////////////////////////////////////
 
 var localVideo = document.querySelector('#localVideo');
@@ -74,6 +76,7 @@ rightButton.onclick = sendDataRight;
 reverseButton.onclick = sendDataReverse;
 
 emotionsCheckbox.onclick = toggleEmotions;
+controlCheckbox.onclick = toggleControl;
 happyButton.onclick = sendHappy;
 sadButton.onclick = sendSad;
 angryButton.onclick = sendAngry;
@@ -81,7 +84,9 @@ uncertainButton.onclick = sendUncertain;
 neutralButton.onclick = sendNeutral;
 sleepyButton.onclick = sendSleepy;
 
+$(document).ready = init;
 dataChannelSend.onkeypress = handleSendKeyPress;
+$(document).keydown(handleKeyControl);
 keyControl.onkeypress = handleKeyControl;
 
 ////////////////////////////////////////////////////
@@ -963,6 +968,7 @@ function playSoundBeat() {
 		intensity.style.background = "#E3E3E3";
 		intensityLabel.style.color = "#E3E3E3";
 		localVideo.style.display = 'block';
+		robotFrame.style.display = 'none';
 		}
 		else
 		{
@@ -988,8 +994,61 @@ function playSoundBeat() {
 		intensity.style.background = "#1E90FF";
 		intensityLabel.style.color = "black";
 		localVideo.style.display = 'none';
+		robotFrame.style.display = 'block';
 		}
 
+ }
+ 
+ 
+ function toggleControl()
+ {
+		if(!controlCheckbox.checked)
+		{
+		forwardButton.disabled = true;
+		forwardButton.style.background =  "#E3E3E3";
+		forwardButton.style.borderBottom = "#E3E3E3";
+		reverseButton.disabled = true;
+		reverseButton.style.background =  "#E3E3E3";
+		reverseButton.style.borderBottom = "#E3E3E3";
+		leftButton.disabled = true;
+		leftButton.style.background =  "#E3E3E3";
+		leftButton.style.borderBottom = "#E3E3E3";
+		rightButton.disabled = true;
+		rightButton.style.background =  "#E3E3E3";
+		rightButton.style.borderBottom = "#E3E3E3";
+		dataChannelSend.disabled = false;
+		sendButton.disabled = false;
+		sendButton.style.background = "#1E90FF";
+		sendButton.style.borderBottom = "#7d7d7d";
+		}
+		else
+		{
+		forwardButton.disabled = false;
+		forwardButton.style.background = "#1E90FF";
+		forwardButton.style.borderBottom = "#7d7d7d";
+		reverseButton.disabled = false;
+		reverseButton.style.background = "#1E90FF";
+		reverseButton.style.borderBottom = "#7d7d7d";
+		leftButton.disabled = false;
+		leftButton.style.background = "#1E90FF";
+		leftButton.style.borderBottom = "#7d7d7d";
+		rightButton.disabled = false;
+		rightButton.style.background = "#1E90FF";
+		rightButton.style.borderBottom = "#7d7d7d";
+		dataChannelSend.disabled = true;
+		sendButton.disabled = true;
+		sendButton.style.background = "#E3E3E3";
+		sendButton.style.borderBottom = "#E3E3E3";
+		}
+
+ }
+ 
+ function init()
+ {
+ 		dataChannelSend.disabled = true;
+		sendButton.disabled = true;
+		sendButton.style.background = "#E3E3E3";
+		sendButton.style.borderBottom = "#E3E3E3";
  }
 
 

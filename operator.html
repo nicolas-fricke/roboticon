@@ -28,18 +28,21 @@
 	
 	<div id='communicationPanel'>
    <video id='remoteVideoFrontal' autoplay></video> 
-  <input type="text" id="dataChannelSend" name="dataChannelSend">
-  <button id="sendButton">Send</button></th>
+  <input type="text" id="dataChannelSend" name="dataChannelSend" >
+  <button id="sendButton" >Send</button></th>
   </div>
 
   <div id='control'> 
   <div id='localVideoPanel'>
+  <iframe id="robotFrame" src="./robot.html" scrolling="no">
+  	<p>Your browser does not support iframes.</p>
+	</iframe>
   <video id='localVideo' autoplay hidden></video> 
 	</div>
    <div id='controlPanel'>
 
 <form>
-<input type="checkbox" id="emotionsCheckbox" value="yes" checked> Transfer emotions:
+<input type="checkbox" id="emotionsCheckbox" value="yes" checked> Transfer emotions
 </form>
 
 		<table class="emotions">
@@ -57,15 +60,19 @@
 		<label id="intensityLabel">Intensity:</label>
 		<input id="intensity" type="range" name="points" min="0" max="50">
 	<br><br> 
+	
+	<form>
+<input type="checkbox" id="controlCheckbox" value="yes" checked> Control robot
+</form>
 		<table>
 			<tr>
 			  <th></th>
-				<th><button id="forward"> &#8593</button></th>
+				<th><button id="forward" title="You can press key 'w' instead"> &#8593</button></th>
 			</tr>    
 			<tr>
-				<th><button id="left"> &#8592 </button></th>
-				<th><button id="reverse">&#8595</button></th>
-				<th><button id="right">&#8594</button></th>
+				<th><button id="left" title="You can press key 'a' instead"> &#8592 </button></th>
+				<th><button id="reverse" title="You can press key 's' instead">&#8595</button></th>
+				<th><button id="right" title="You can press key 'd' instead">&#8594</button></th>
 			</tr>   
 		</table>	
 	  </div>
