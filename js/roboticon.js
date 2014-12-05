@@ -21,9 +21,11 @@ animateEyeballsDirection = function(degrees, intensities, duration) {
     x = Math.sin(degrees[side] * Math.PI / 180) * 18 * ensureWithinRange(intensities[side]);
     y = Math.cos(degrees[side] * Math.PI / 180) * 18 * ensureWithinRange(intensities[side]);
 
-    face.eyeballs[side].group.stop().animate({
+    face.eyeballs[side].group.obj.stop().animate({
       transform: (new Snap.Matrix()).translate(x, y)
     }, duration, mina.easein);
+    face.eyeballs[side].group.val.direction = degrees[side];
+    face.eyeballs[side].group.val.intensity = intensities[side];
   })
 }
 
@@ -32,9 +34,10 @@ animateEyebrowsShape = function(new_shapes, duration) {
   if (typeof new_shapes === 'string') new_shapes = {left: new_shapes, right: new_shapes};
 
   Object.keys(new_shapes).forEach(function(side) {
-    face.eyebrows[side].stop().animate({
+    face.eyebrows[side].obj.animate({
       d: templates.eyebrows[side][new_shapes[side]].attr('d')
     }, duration, mina.easeinout);
+    face.eyebrows[side].val.shape = new_shapes[side];
   })
 }
 
@@ -43,10 +46,11 @@ animateEyebrowsTurn = function(degrees, duration) {
   if (typeof degrees === 'number') degrees = {left: degrees, right: -degrees};
 
   Object.keys(degrees).forEach(function(side) {
-    boundingBox = face.eyebrows[side].getBBox();
-    face.eyebrows[side].stop().animate({
+    boundingBox = face.eyebrows[side].obj.getBBox();
+    face.eyebrows[side].obj.animate({
       transform: (new Snap.Matrix()).rotate(degrees[side], boundingBox.cx, boundingBox.cy)
-    }, duration, mina.easeout)
+    }, duration, mina.easeout);
+    face.eyebrows[side].val.rotation = degrees[side];
   })
 }
 
@@ -59,34 +63,33 @@ animateEyebrowsHeight = function(heights, duration) {
     // +10 is the highest one, therefore norm height to:
     height = - (ensureWithinRange(heights[side]) * 29 - 10);
 
-    face.eyebrows[side].stop().animate({
+    face.eyebrows[side].obj.animate({
       transform: (new Snap.Matrix()).translate(0, height)
-    }, duration, mina.easeout)
+    }, duration, mina.easeout);
+    face.eyebrows[side].val.height = heights[side];
   })
 }
 
-animateEyelids = function(closedness, duration) {
+animateEyelids = function(closedness, duration, dontSetValues) {
   if (duration == undefined) duration = 100;
   if (typeof closedness === 'number') closedness = {left: closedness, right: closedness};
 
   Object.keys(closedness).forEach(function(side) {
-    if (typeof closedness[side] === 'number') {
-      translation = new Snap.Matrix();
-      translation.translate(0, ensureWithinRange(closedness[side]) * 52);
-    } else {
-      translation = closedness[side];
-    };
-    face.eyelids[side].stop().animate({
+    translation = new Snap.Matrix();
+    translation.translate(0, ensureWithinRange(closedness[side]) * 52);
+    face.eyelids[side].obj.animate({
       transform: translation
     }, duration, mina.easeout);
+    if (!dontSetValues) face.eyelids[side].val.closedness = closedness[side];
   })
 }
 
 animateMouth = function(emotion, duration) {
   if (duration == undefined) duration = 100;
-  face.mouth.stop().animate({
+  face.mouth.obj.stop().animate({
     d: templates.mouth[emotion].attr('d')
   }, duration, mina.easeinout);
+  face.mouth.val.emotion = emotion;
 }
 
 setFace = function(emotion) {
@@ -98,12 +101,13 @@ blinkEyes = function() {
   closedDuration = 100;
   openingDuration = 80;
 
-  normalOpeness = {};
+  normalClosedness = {};
   ['left', 'right'].forEach(function(side) {
-    normalOpeness[side] = face.eyelids[side].attr('transform').toString();
-  })
-  animateEyelids(1, closingDuration);
-  setTimeout(function(){animateEyelids(normalOpeness, openingDuration)}, closingDuration + closedDuration);
+    // face.eyelids[side].obj.inAnim()
+    normalClosedness[side] = face.eyelids[side].val.closedness;
+  });
+  animateEyelids(1, closingDuration, true);
+  setTimeout(function(){animateEyelids(normalClosedness, openingDuration, true)}, closingDuration + closedDuration);
 }
 
 blinkEyesInIntervals = function() {
@@ -203,27 +207,48 @@ keypressed = function(e) {
 setFaces = function() {
   face = {
     eyebrows: {
-      left: snap.select('#eyebrow-left-animated'),
-      right: snap.select('#eyebrow-right-animated')
+      left: {
+        obj: snap.select('#eyebrow-left-animated'),
+        val: {shape: 'angular', rotation: 0, height: 0.35}
+      },
+      right: {
+        obj: snap.select('#eyebrow-right-animated'),
+        val: {shape: 'angular', rotation: 0, height: 0.35}
+      }
     },
     eyelids: {
-      left: snap.select('#eye-left-lid'),
-      right: snap.select('#eye-right-lid')
+      left: {
+        obj: snap.select('#eye-left-lid'),
+        val: {closedness: 0}
+      },
+      right: {
+        obj: snap.select('#eye-right-lid'),
+        val: {closedness: 0}
+      }
     },
     eyeballs: {
       left: {
-        iris: snap.select('#eye-left-iris'),
-        pupil: snap.select('#eye-left-pupil'),
-        group: snap.select('#eyeball-left')
+        iris: {obj: snap.select('#eye-left-iris')},
+        pupil: {obj: snap.select('#eye-left-pupil')},
+        group: {
+          obj: snap.select('#eyeball-left'),
+          val: {direction: 0, intensity: 0}
+        }
       },
       right: {
-        iris: snap.select('#eye-right-iris'),
-        pupil: snap.select('#eye-right-pupil'),
-        group: snap.select('#eyeball-right')
+        iris: {obj: snap.select('#eye-right-iris')},
+        pupil: {obj: snap.select('#eye-right-pupil')},
+        group: {
+          obj: snap.select('#eyeball-right'),
+          val: {direction: 0, intensity: 0}
+        }
       }
     },
-    mouth: snap.select('#mouth-animated')
-  };
+    mouth: {
+      obj: snap.select('#mouth-animated'),
+      val: {emotion: 'neutral'}
+    }
+  }
 
   templates = {eyebrows: {left: {}, right: {}}, mouth: {}};
   ['neutral', 'happy', 'angry', 'sad', 'uncertain'].forEach(function(emotion) {

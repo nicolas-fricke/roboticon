@@ -142,7 +142,7 @@ if (room === '') {
   room = 'robotRoom'; //prompt('Enter room name:');
 } else {
     //
-   
+
 }
 */
 
@@ -181,7 +181,7 @@ socket.on('created', function (room){
   user='dennys';
   console.log('Created: ' + user + ' isInitiator: ' + isInitiator);
     ////////////////////////////////////////////////
-  // getUserMedia para 
+  // getUserMedia para
 
   //basic constraints
   //constraints = { video: true, audio: true };
@@ -194,7 +194,7 @@ socket.on('created', function (room){
 
   console.log(user + ' getUserMedia, constraints', constraints);
   getUserMedia(constraints, handleUserMedia, handleUserMediaError);
-  
+
 });
 
 
@@ -254,7 +254,7 @@ socket.on('message', function (message){
       sdpMLineIndex: message.label,
       candidate: message.candidate
     });
-    console.log(user + ' AÑADE ICE CANDIDATE: ' + message.candidate);    
+    console.log(user + ' AÑADE ICE CANDIDATE: ' + message.candidate);
     pc.addIceCandidate(candidate);
   } else if (message === 'bye' && isStarted) {
     handleRemoteHangup();
@@ -281,7 +281,7 @@ function handleUserMedia(stream) {
   audioTracks = stream.getAudioTracks();
   if (audioTracks.length == 1) {
       console.log('HANDLE USER MEDIA AUDIO TRACK == 1');
-      
+
 
       filteredStream = applyFilter(stream);
 
@@ -622,7 +622,7 @@ function onReceiveMessageCallback(event) {
     //window.speechSynthesis.speak(SpeechSynthesisUtterance(dataChannelReceive.value.substr(7,dataChannelReceive.value.length)));
 
   }
-  
+
 }
 
 
@@ -640,7 +640,7 @@ function onSendChannelStateChange() {
     //closeButton.disabled = true;
   }
 }
-  
+
 
 function onReceiveChannelStateChange() {
   var readyState = receiveChannel.readyState;
@@ -655,7 +655,7 @@ function handleSendKeyPress(event) {
   if (key==13){
     console.log('entro a key13..');
     sendData();
-   
+
   }
 }
 
@@ -803,7 +803,7 @@ function init() {
     context = new AudioContext();
     window.filter = context.createBiquadFilter();
     window.filter.type = 0; // Low-pass filter. See BiquadFilterNode docs
-    window.filter.frequency.value = 440; 
+    window.filter.frequency.value = 440;
     //window.filter.type = filter.HIGHPASS;
     //window.filter.frequency.value = 1500;
 
@@ -997,3 +997,64 @@ function playSoundBeat() {
 		}
 
  }
+
+
+
+generateJson = function(eyebrowsShape, eyebrowsRotation, eyebrowsHeight, eyelidsHeight, eyeballsDirection, eyeballsIntensity, mouthEmotion) {
+  return  '{',
+            '"eyebrows":{',
+              '"left":{',
+                '"shape":"{0}",',
+                '"rotation":{1},',
+                '"height":{2}',
+              '},',
+              '"right":{',
+                '"shape":"{0}",',
+                '"rotation":{1},',
+                '"height":{2}',
+              '}',
+            '},',
+            '"eyelids":{',
+              '"left":{',
+                '"height":{3}',
+              '},',
+              '"right":{',
+                '"height":{3}',
+              '}',
+            '},',
+            '"eyeballs":{',
+              '"left":{',
+                '"position":{',
+                  '"direction":{4},',
+                  '"intensity":{5}',
+                '}',
+              '},',
+              '"right":{',
+                '"position":{',
+                  '"direction":{4},',
+                  '"intensity":{5}',
+                '}',
+              '}',
+            '},',
+            '"mouth":{',
+              '"emotion":"{6}"',
+            '}',
+          '}'].join('\n').format(
+            eyebrowsShape,      // 0
+            eyebrowsRotation,   // 1
+            eyebrowsHeight,     // 2
+            eyelidsHeight,      // 3
+            eyeballsDirection,  // 4
+            eyeballsIntensity,  // 5
+            mouthEmotion        // 6
+          )
+}
+
+String.prototype.format = function() {
+    var formatted = this;
+    for (var i = 0; i < arguments.length; i++) {
+        var regexp = new RegExp('\\{'+i+'\\}', 'gi');
+        formatted = formatted.replace(regexp, arguments[i]);
+    }
+    return formatted;
+};
