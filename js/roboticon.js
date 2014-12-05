@@ -11,27 +11,39 @@ ensureWithinRange = function(variable, min, max) {
   return Math.min(Math.max(variable, min), max);
 }
 
-animateEyeballsDirection = function(degrees, intensities, duration) {
+mergeIntoLeftRight = function(values) {
+  if (bothSides = values.both_sides) {
+    if (typeof bothSides === 'object')
+      return {
+        left:  jQuery.extend(true, {}, bothSides, values.left),
+        right: jQuery.extend(true, {}, bothSides, values.right)
+      };
+    return {left: values.left || bothSides, right: values.right || bothSides};
+  }
+  return values;
+}
+
+animateEyeballsDirection = function(positions, duration) {
+  positions = mergeIntoLeftRight(positions);
   if (duration == undefined) duration = 100;
   // The eyes can move within a circle of 18
-  if (typeof degrees === 'number') degrees = {left: degrees, right: degrees};
-  if (typeof intensities === 'number') intensities = {left: intensities, right: intensities};
 
-  Object.keys(degrees).forEach(function(side) {
-    x = Math.sin(degrees[side] * Math.PI / 180) * 18 * ensureWithinRange(intensities[side]);
-    y = Math.cos(degrees[side] * Math.PI / 180) * 18 * ensureWithinRange(intensities[side]);
+  Object.keys(positions).forEach(function(side) {
+    intensity = ensureWithinRange(positions[side].intensity);
+    x = Math.sin(positions[side].direction * Math.PI / 180) * 18 * intensity;
+    y = Math.cos(positions[side].direction * Math.PI / 180) * 18 * intensity;
 
     face.eyeballs[side].group.obj.stop().animate({
       transform: (new Snap.Matrix()).translate(x, y)
     }, duration, mina.easein);
-    face.eyeballs[side].group.val.direction = degrees[side];
-    face.eyeballs[side].group.val.intensity = intensities[side];
+    face.eyeballs[side].group.val.direction = positions[side].direction;
+    face.eyeballs[side].group.val.intensity = intensity;
   })
 }
 
 animateEyebrowsShape = function(new_shapes, duration) {
+  new_shapes = mergeIntoLeftRight(new_shapes);
   if (duration == undefined) duration = 100;
-  if (typeof new_shapes === 'string') new_shapes = {left: new_shapes, right: new_shapes};
 
   Object.keys(new_shapes).forEach(function(side) {
     face.eyebrows[side].obj.animate({
@@ -41,40 +53,9 @@ animateEyebrowsShape = function(new_shapes, duration) {
   })
 }
 
-animateEyebrowsTurn = function(degrees, duration) {
-  if (duration == undefined) duration = 100;
-  if (typeof degrees === 'number') degrees = {left: degrees, right: -degrees};
-
-  Object.keys(degrees).forEach(function(side) {
-    boundingBox = face.eyebrows[side].obj.getBBox();
-    face.eyebrows[side].obj.animate({
-      transform: (new Snap.Matrix()).rotate(degrees[side], boundingBox.cx, boundingBox.cy)
-    }, duration, mina.easeout);
-    face.eyebrows[side].val.rotation = degrees[side];
-  })
-}
-
-animateEyebrowsHeight = function(heights, duration) {
-  if (duration == undefined) duration = 100;
-  if (typeof heights === 'number') heights = {left: heights, right: heights};
-
-  Object.keys(heights).forEach(function(side) {
-    // -19 is the lowest good looking position for the eyebrows,
-    // +10 is the highest one, therefore norm height to:
-    height = - (ensureWithinRange(heights[side]) * 29 - 10);
-
-    face.eyebrows[side].obj.animate({
-      transform: (new Snap.Matrix()).translate(0, height)
-    }, duration, mina.easeout);
-    face.eyebrows[side].val.height = heights[side];
-  })
-}
-
 animateEyebrowsTransform = function(transform, duration) {
+  transform = mergeIntoLeftRight(transform);
   if (duration == undefined) duration = 100;
-  if (! (transform.left || transform.right)) {
-    transform = {left: transform, right: transform};
-  }
 
   Object.keys(transform).forEach(function(side) {
     transformMatrix = new Snap.Matrix();
@@ -85,30 +66,30 @@ animateEyebrowsTransform = function(transform, duration) {
           transformMatrix.translate(0, height);
           face.eyebrows[side].val.height = height;
     }
-
     if (rotation = transform[side].rotation) {
       boundingBox = face.eyebrows[side].obj.getBBox();
-      transformMatrix.rotate(rotation, boundingBox.cx, boundingBox.cy)
+      transformMatrix.rotate(side === 'right' ? -rotation : rotation, boundingBox.cx, boundingBox.cy)
       face.eyebrows[side].val.rotation = rotation;
     }
 
     face.eyebrows[side].obj.animate({
       transform: transformMatrix
     }, duration, mina.easeout);
+    face.eyebrows[side].val.transform = jQuery.extend(true, {}, face.eyebrows[side].val.transform, transform[side]);
   })
 }
 
-animateEyelids = function(closedness, duration, dontSetValues) {
+animateEyelids = function(height, duration, dontSetValues) {
+  height = mergeIntoLeftRight(height);
   if (duration == undefined) duration = 100;
-  if (typeof closedness === 'number') closedness = {left: closedness, right: closedness};
 
-  Object.keys(closedness).forEach(function(side) {
+  Object.keys(height).forEach(function(side) {
     translation = new Snap.Matrix();
-    translation.translate(0, ensureWithinRange(closedness[side]) * 52);
+    translation.translate(0, ensureWithinRange(height[side]) * 52);
     face.eyelids[side].obj.animate({
       transform: translation
     }, duration, mina.easeout);
-    if (!dontSetValues) face.eyelids[side].val.closedness = closedness[side];
+    if (!dontSetValues) face.eyelids[side].val.height = height[side];
   })
 }
 
@@ -132,9 +113,9 @@ blinkEyes = function() {
   normalClosedness = {};
   ['left', 'right'].forEach(function(side) {
     // face.eyelids[side].obj.inAnim()
-    normalClosedness[side] = face.eyelids[side].val.closedness;
+    normalClosedness[side] = face.eyelids[side].val.height;
   });
-  animateEyelids(1, closingDuration, true);
+  animateEyelids({left: 1, right: 1}, closingDuration, true);
   setTimeout(function(){animateEyelids(normalClosedness, openingDuration, true)}, closingDuration + closedDuration);
 }
 
@@ -154,41 +135,26 @@ parseAndApplyJson = function(json) {
   duration = 100;
 
   if (input.eyebrows) {
-    ['left', 'right'].forEach(function(side){
-      if (input.eyebrows[side]) {
-        if (new_shape = input.eyebrows[side].shape)
-          animateEyebrowsShape(new_shape, duration);
-        if (rotation = input.eyebrows[side].rotation)
-          animateEyebrowsTurn(rotation, duration);
-        if (height = input.eyebrows[side].height)
-          animateEyebrowsHeight(height, duration);
-      }
-    });
-    if (new_color = input.eyebrows.color)
+    if (newShapes = input.eyebrows.shapes)
+      animateEyebrowsShape(newShapes, duration);
+    if (transform = input.eyebrows.transform)
+      animateEyebrowsTransform(transform, duration);
+    if (newColor = input.eyebrows.color)
       console.warn('Color changing for eyebrows is not yet implemented.');
   }
 
   if (input.eyelids) {
-    ['left', 'right'].forEach(function(side){
-      if (input.eyelids[side]) {
-        if (height = input.eyelids[side].height) animateEyelids(height, duration);
-      }
-    });
+    if (newHeight = input.eyelids.heights)
+      animateEyelids(newHeight, duration);
     if (newBlinkingInterval = input.eyelids.blinking_interval)
       updateBlinkingInterval(newBlinkingInterval);
   }
 
   if (input.eyeballs) {
-    ['left', 'right'].forEach(function(side){
-      if (input.eyeballs[side]) {
-        if (input.eyeballs[side].position) {
-          if ((direction = input.eyeballs[side].position.direction) && (intensity = input.eyeballs[side].position.intensity))
-            animateEyeballsDirection(direction, intensity, duration);
-        }
-        if (new_color = input.eyeballs[side].color)
-          console.warn('Color changing for eyeballs is not yet implemented.');
-      }
-    });
+    if (newPositions = input.eyeballs.positions)
+      animateEyeballsDirection(newPositions, duration);
+    if (newColors = input.eyeballs.colors)
+      console.warn('Color changing for eyeballs is not yet implemented.');
   }
 
   if (input.mouth) {
