@@ -611,6 +611,10 @@ function onReceiveMessageCallback(event) {
     console.log(user + ' HABLAR ' + dataChannelReceive.value.substr(7,dataChannelReceive.value.length))
     speak(dataChannelReceive.value.substr(7,dataChannelReceive.value.length));
   }
+  else if (dataChannelReceive.value.substr(0, 7) === 'ROBICO:'){
+    console.log(user + ' ROBICO ' + dataChannelReceive.value.substr(7,dataChannelReceive.value.length))    
+    change_emotion(dataChannelReceive.value.substr(7,dataChannelReceive.value.length));
+  }
   
 }
 
@@ -693,3 +697,9 @@ function sendDataReverse() {
   sendChannel.send(data);
   trace(user + ' envia dato: ' + data);
 }
+
+
+function change_emotion(jsonStr) {
+  console.log('change_emotion function was called');
+  console.log(jsonStr);
+ }
