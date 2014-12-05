@@ -74,9 +74,12 @@ rightButton.onclick = sendDataRight;
 reverseButton.onclick = sendDataReverse;
 
 emotionsCheckbox.onclick = toggleEmotions;
-//carButton.onclick = playSoundCar;
-//beatButton.onclick = playSoundBeat;
-//loveButton.onclick = playLove;
+happyButton.onclick = sendHappy;
+sadButton.onclick = sendSad;
+angryButton.onclick = sendAngry;
+uncertainButton.onclick = sendUncertain;
+neutralButton.onclick = sendNeutral;
+sleepyButton.onclick = sendSleepy;
 
 dataChannelSend.onkeypress = handleSendKeyPress;
 keyControl.onkeypress = handleKeyControl;
@@ -767,6 +770,13 @@ function CabezaAbajo() {
 }
 
 
+
+function sendHappy(){}
+function sendSad(){}
+function sendAngry(){}
+function sendUncertain(){}
+function sendNeutral(){}
+function sendSleepy(){}
 
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////
