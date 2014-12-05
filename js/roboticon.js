@@ -70,21 +70,17 @@ animateEyebrowsHeight = function(heights, duration) {
   })
 }
 
-animateEyelids = function(closedness, duration) {
+animateEyelids = function(closedness, duration, dontSetValues) {
   if (duration == undefined) duration = 100;
   if (typeof closedness === 'number') closedness = {left: closedness, right: closedness};
 
   Object.keys(closedness).forEach(function(side) {
-    if (typeof closedness[side] === 'number') {
-      translation = new Snap.Matrix();
-      translation.translate(0, ensureWithinRange(closedness[side]) * 52);
-    } else {
-      translation = closedness[side];
-    };
-    face.eyelids[side].obj.stop().animate({
+    translation = new Snap.Matrix();
+    translation.translate(0, ensureWithinRange(closedness[side]) * 52);
+    face.eyelids[side].obj.animate({
       transform: translation
     }, duration, mina.easeout);
-    face.eyelids[side].val.closedness = closedness[side];
+    if (!dontSetValues) face.eyelids[side].val.closedness = closedness[side];
   })
 }
 
@@ -107,10 +103,11 @@ blinkEyes = function() {
 
   normalClosedness = {};
   ['left', 'right'].forEach(function(side) {
+    // face.eyelids[side].obj.inAnim()
     normalClosedness[side] = face.eyelids[side].val.closedness;
   });
-  animateEyelids(1, closingDuration);
-  setTimeout(function(){animateEyelids(normalClosedness, openingDuration)}, closingDuration + closedDuration);
+  animateEyelids(1, closingDuration, true);
+  setTimeout(function(){animateEyelids(normalClosedness, openingDuration, true)}, closingDuration + closedDuration);
 }
 
 blinkEyesInIntervals = function() {
