@@ -70,6 +70,34 @@ animateEyebrowsHeight = function(heights, duration) {
   })
 }
 
+animateEyebrowsTransform = function(transform, duration) {
+  if (duration == undefined) duration = 100;
+  if (! (transform.left || transform.right)) {
+    transform = {left: transform, right: transform};
+  }
+
+  Object.keys(transform).forEach(function(side) {
+    transformMatrix = new Snap.Matrix();
+    if (height = transform[side].height) {
+          // -19 is the lowest good looking position for the eyebrows,
+          // +10 is the highest one, therefore norm height to:
+          height = - (ensureWithinRange(height) * 29 - 10);
+          transformMatrix.translate(0, height);
+          face.eyebrows[side].val.height = height;
+    }
+
+    if (rotation = transform[side].rotation) {
+      boundingBox = face.eyebrows[side].obj.getBBox();
+      transformMatrix.rotate(rotation, boundingBox.cx, boundingBox.cy)
+      face.eyebrows[side].val.rotation = rotation;
+    }
+
+    face.eyebrows[side].obj.animate({
+      transform: transformMatrix
+    }, duration, mina.easeout);
+  })
+}
+
 animateEyelids = function(closedness, duration, dontSetValues) {
   if (duration == undefined) duration = 100;
   if (typeof closedness === 'number') closedness = {left: closedness, right: closedness};
