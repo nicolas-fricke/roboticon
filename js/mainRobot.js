@@ -182,13 +182,7 @@ socket.on('created', function (room){
 
     if (isInitiator){
       maybeStart();
-    }
-
-
-
-
-
-  
+    } 
 });
 
 

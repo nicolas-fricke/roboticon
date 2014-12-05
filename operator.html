@@ -4,6 +4,8 @@
   <meta name='keywords' content='WebRTC, HTML5, JavaScript' />
   <meta name='description' content='WebRTC Reference App' />
   <meta name='viewport' content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1'>
+  <script src='https://code.jquery.com/jquery-2.1.1.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.3.0/snap.svg-min.js'></script>
 
   <base target='_blank'>
 
@@ -25,13 +27,18 @@
 -->
 	
 	<div id='communicationPanel'>
-    <video id='remoteVideoFrontal' autoplay></video>
+   <video id='remoteVideoFrontal' autoplay></video> 
   <input type="text" id="dataChannelSend" name="dataChannelSend">
   <button id="sendButton">Send</button></th>
   </div>
 
   <div id='control'> 
-	<video id='localVideo' autoplay></video>
+  <div id='localVideoPanel'>
+	<object id="face-container" class="face" data="assets/images/face_calvin.svg" type="image/svg+xml">
+        <p class="fallback-message">Sorry, something went wrong.</p>
+  </object>
+  <video id='localVideo' autoplay hidden></video> 
+	</div>
    <div id='controlPanel'>
 
 <form>
@@ -50,10 +57,9 @@
 				<th><button id="sleepyButton">Sleepy</button></th>
 			</tr>   
 		</table>	
-		Intensity:
+		<label id="intensityLabel">Intensity:</label>
 		<input id="intensity" type="range" name="points" min="0" max="50">
-	<br><br>
-		Controls:
+	<br><br> 
 		<table>
 			<tr>
 			  <th></th>
@@ -188,5 +194,6 @@
   <script src='node_modules\socket.io\node_modules\socket.io-client\dist/socket.io.js'></script>
   <script src='js/lib/adapter.js'></script>
   <script src='js/mainOperator.js'></script>
+  <script src="js/roboticon.js"></script>
 </body>
 </html>
