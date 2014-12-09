@@ -62,7 +62,7 @@ changeValues = function() {
   eyeballsIntensity = parseFloat($('#slider-eyeballsIntensity').val());
   mouthEmotion = $('input[name=mouthEmotion]:checked').val();
   updateJson();
-  console.log(json);
+  // console.log(json);
   parseAndApplyJson(json);
 }
 
