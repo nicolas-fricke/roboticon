@@ -59,17 +59,19 @@ animateEyebrowsTransform = function(transform, duration) {
 
   Object.keys(transform).forEach(function(side) {
     transformMatrix = new Snap.Matrix();
+
+    if (rotation = transform[side].rotation) {
+      boundingBox = face.eyebrows[side].obj.getBBox();
+      transformMatrix.rotate(side === 'right' ? -rotation : rotation, boundingBox.cx, boundingBox.cy)
+      face.eyebrows[side].val.rotation = rotation;
+    }
+
     if (height = transform[side].height) {
           // -19 is the lowest good looking position for the eyebrows,
           // +10 is the highest one, therefore norm height to:
           height = - (ensureWithinRange(height) * 29 - 10);
           transformMatrix.translate(0, height);
           face.eyebrows[side].val.height = height;
-    }
-    if (rotation = transform[side].rotation) {
-      boundingBox = face.eyebrows[side].obj.getBBox();
-      transformMatrix.rotate(side === 'right' ? -rotation : rotation, boundingBox.cx, boundingBox.cy)
-      face.eyebrows[side].val.rotation = rotation;
     }
 
     face.eyebrows[side].obj.animate({
@@ -79,17 +81,17 @@ animateEyebrowsTransform = function(transform, duration) {
   })
 }
 
-animateEyelids = function(height, duration, dontSetValues) {
-  height = mergeIntoLeftRight(height);
+animateEyelids = function(heights, duration, dontSetValues) {
+  heights = mergeIntoLeftRight(heights);
   if (duration == undefined) duration = 100;
 
-  Object.keys(height).forEach(function(side) {
+  Object.keys(heights).forEach(function(side) {
     translation = new Snap.Matrix();
-    translation.translate(0, ensureWithinRange(height[side]) * 52);
+    translation.translate(0, ensureWithinRange(heights[side]) * 52);
     face.eyelids[side].obj.animate({
       transform: translation
     }, duration, mina.easeout);
-    if (!dontSetValues) face.eyelids[side].val.height = height[side];
+    if (! dontSetValues) face.eyelids[side].val.height = heights[side];
   })
 }
 
@@ -213,11 +215,11 @@ setFaces = function() {
     eyelids: {
       left: {
         obj: snap.select('#eye-left-lid'),
-        val: {closedness: 0}
+        val: {height: 0}
       },
       right: {
         obj: snap.select('#eye-right-lid'),
-        val: {closedness: 0}
+        val: {height: 0}
       }
     },
     eyeballs: {
