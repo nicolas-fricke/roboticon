@@ -239,8 +239,6 @@ var RobotIcon = (function () {
     snap = Snap('#face-container');
     setFaces();
     updateBlinkingInterval(blinkingInterval);
-
-    $(document).keydown(keypressed);
   }
 
   return {
