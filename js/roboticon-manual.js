@@ -12,13 +12,13 @@ var json;
 
 function emotionValues() {
   console.log([
-  ' eyebrows - shape:     "{0}"',
-  '           - rotation:  {1},',
-  '           - height:    {2}',
-  '  eyelids  - height:    {3}',
-  '  eyeballs - direction: {4},',
-  '           - intensity: {5}',
-  '  mouth    - emotion:   "{6}"'].join('\n').format(
+    'eyebrowsShape: "{0}",',
+    ' eyebrowsRotation: {1},',
+    ' eyebrowsHeight: {2},',
+    ' eyelidsHeight: {3},',
+    ' eyeballsDirection: {4},',
+    ' eyeballsIntensity: {5},',
+    ' mouthEmotion: "{6}"'].join('\n').format(
     eyebrowsShape,      // 0
     eyebrowsRotation,   // 1
     eyebrowsHeight,     // 2
