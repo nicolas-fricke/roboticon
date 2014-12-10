@@ -235,6 +235,10 @@ var RobotIcon = (function () {
     });
   }
 
+  function getFace() {
+    return face;
+  }
+
   function initialize() {
     snap = Snap('#face-container');
     setFaces();
@@ -251,7 +255,7 @@ var RobotIcon = (function () {
     animateEyelids: animateEyelids,
     animateMouth: animateMouth,
     updateBlinkingInterval: updateBlinkingInterval,
-    __faceValues__: face
+    __faceValues__: getFace
   };
 })();
 
