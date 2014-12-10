@@ -28,7 +28,7 @@
 	
 	<div id='communicationPanel'>
    <video id='remoteVideoFrontal' autoplay></video> 
-  <input type="text" id="dataChannelSend" name="dataChannelSend" >
+  <input type="text" id="dataChannelSend" name="dataChannelSend">
   <button id="sendButton" >Send</button></th>
   </div>
 
@@ -42,7 +42,11 @@
    <div id='controlPanel'>
 
 <form>
-<input type="checkbox" id="emotionsCheckbox" value="yes" checked> Transfer emotions
+<select id="modeSelector">
+  <option value="Emotions">Emotions</option>
+  <option value="Operator">Operator</option>
+  <option value="Menu">Menu</option>
+</select>
 </form>
 
 		<table class="emotions">
@@ -62,7 +66,7 @@
 	<br><br> 
 	
 	<form>
-<input type="checkbox" id="controlCheckbox" value="yes" checked> Control robot
+<input type="checkbox" id="controlCheckbox" value="yes" unchecked> Control robot
 </form>
 		<table>
 			<tr>

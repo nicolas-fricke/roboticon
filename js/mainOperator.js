@@ -49,8 +49,9 @@ var robotFrame = document.querySelector('iframe#robotFrame');
 //var carButton = document.querySelector('button#carButton');
 //var beatButton = document.querySelector('button#beatButton');
 //var loveButton = document.querySelector('button#loveButton');
-var emotionsCheckbox = document.querySelector('input#emotionsCheckbox');
-var emotionsCheckbox = document.querySelector('input#controlCheckbox');
+var controlCheckbox = document.querySelector('input#controlCheckbox');
+var modeSelector = document.querySelector('select#modeSelector');
+
 ////////////////////////////////////////////////////
 
 var localVideo = document.querySelector('#localVideo');
@@ -75,7 +76,6 @@ leftButton.onclick = sendDataLeft;
 rightButton.onclick = sendDataRight;
 reverseButton.onclick = sendDataReverse;
 
-emotionsCheckbox.onclick = toggleEmotions;
 controlCheckbox.onclick = toggleControl;
 happyButton.onclick = sendHappy;
 sadButton.onclick = sendSad;
@@ -83,10 +83,11 @@ angryButton.onclick = sendAngry;
 uncertainButton.onclick = sendUncertain;
 neutralButton.onclick = sendNeutral;
 sleepyButton.onclick = sendSleepy;
+modeSelector.onchange = changeMode;
 
-$(document).ready = init;
-dataChannelSend.onkeypress = handleSendKeyPress;
+$(document).ready = initialize;
 $(document).keydown(handleKeyControl);
+dataChannelSend.onkeypress = handleSendKeyPress;
 keyControl.onkeypress = handleKeyControl;
 
 ////////////////////////////////////////////////////
@@ -655,6 +656,8 @@ function onReceiveChannelStateChange() {
 
 //funciones para enviar datos al robot mediante el datachannel
 function handleSendKeyPress(event) {
+	if(!controlCheckbox.checked)
+	{
   console.log ('entro a handleSendKeyPress...' + event.keyCode + ' '+ event.which);
   var key=event.keyCode || event.which;
   if (key==13){
@@ -662,9 +665,12 @@ function handleSendKeyPress(event) {
     sendData();
 
   }
+  }
 }
 
 function handleKeyControl(event) {
+	if(controlCheckbox.checked)
+	{
   console.log ('handleKeyControl...' + event.keyCode + ' event.which: '+ event.which);
   var key=event.keyCode || event.which;
   if (key==121 || key==117 || key==105 || key==104 || key==106 || key==107 || key==109 || key==32 || key==119 || key==97 || key==115 || key==100){
@@ -705,9 +711,22 @@ function handleKeyControl(event) {
 	else if (key==105){
 		data = 'ACTUAR:ROLLRIGHT';
 		}
+	else if (key==65){
+		data = 'ACTUAR:left';
+		}
+	else if (key==68){
+		data = 'ACTUAR:right';
+		}
+	else if (key==87){
+		data = 'ACTUAR:forward';
+		}
+	else if (key==83){
+		data = 'ACTUAR:reverse';
+		}
 	trace(user + ' envia dato: ' + data);
 	sendChannel.send(data);
 	keyControl.value = null;
+  }
   }
 }
 
@@ -788,6 +807,8 @@ function CabezaAbajo() {
 window.addEventListener('load', init, false);
 
 function init() {
+	changeMode();
+	toggleControl();
   try {
     // Fix up for prefixing
     window.AudioContext = window.AudioContext||window.webkitAudioContext;
@@ -797,9 +818,6 @@ function init() {
     window.filter.frequency.value = 440;
     //window.filter.type = filter.HIGHPASS;
     //window.filter.frequency.value = 1500;
-
-
-
   }
   catch(e) {
     alert('Web Audio API is not supported in this browser');
@@ -991,6 +1009,89 @@ function playSoundBeat() {
 
  }
  
+ function changeMode()
+ {
+		if(modeSelector.selectedIndex == 1)
+		{
+		happyButton.disabled = true;
+		happyButton.style.background =  "#E3E3E3";
+		happyButton.style.borderBottom = "#E3E3E3";
+		sadButton.disabled = true;
+		sadButton.style.background = "#E3E3E3";
+		sadButton.style.borderBottom = "#E3E3E3";
+		angryButton.disabled = true;
+		angryButton.style.background = "#E3E3E3";
+		angryButton.style.borderBottom = "#E3E3E3";
+		uncertainButton.disabled = true;
+		uncertainButton.style.background = "#E3E3E3";
+		uncertainButton.style.borderBottom = "#E3E3E3";
+		neutralButton.disabled = true;
+		neutralButton.style.background = "#E3E3E3";
+		neutralButton.style.borderBottom = "#E3E3E3";
+		sleepyButton.disabled = true;
+		sleepyButton.style.background = "#E3E3E3";
+		sleepyButton.style.borderBottom = "#E3E3E3";
+		intensity.disabled = true;
+		intensity.style.background = "#E3E3E3";
+		intensityLabel.style.color = "#E3E3E3";
+		localVideo.style.display = 'block';
+		robotFrame.style.display = 'none';
+		}
+		else if(modeSelector.selectedIndex == 0)
+		{
+		happyButton.disabled = false;
+		happyButton.style.background = "#1E90FF";
+		happyButton.style.borderBottom = "#7d7d7d";
+		sadButton.disabled = false;
+		sadButton.style.background = "#1E90FF";
+		sadButton.style.borderBottom = "#7d7d7d";
+		angryButton.disabled = false;
+		angryButton.style.background = "#1E90FF";
+		angryButton.style.borderBottom = "#7d7d7d";
+		uncertainButton.disabled = false;
+		uncertainButton.style.background = "#1E90FF";
+		uncertainButton.style.borderBottom = "#7d7d7d";
+		neutralButton.disabled = false;
+		neutralButton.style.background = "#1E90FF";
+		neutralButton.style.borderBottom =  "#7d7d7d";
+		sleepyButton.disabled = false;
+		sleepyButton.style.background = "#1E90FF";
+		sleepyButton.style.borderBottom = "#7d7d7d";
+		intensity.disabled = false;
+		intensity.style.background = "#1E90FF";
+		intensityLabel.style.color = "black";
+		localVideo.style.display = 'none';
+		robotFrame.style.display = 'block';
+		}
+		else
+		{
+		happyButton.disabled = true;
+		happyButton.style.background =  "#E3E3E3";
+		happyButton.style.borderBottom = "#E3E3E3";
+		sadButton.disabled = true;
+		sadButton.style.background = "#E3E3E3";
+		sadButton.style.borderBottom = "#E3E3E3";
+		angryButton.disabled = true;
+		angryButton.style.background = "#E3E3E3";
+		angryButton.style.borderBottom = "#E3E3E3";
+		uncertainButton.disabled = true;
+		uncertainButton.style.background = "#E3E3E3";
+		uncertainButton.style.borderBottom = "#E3E3E3";
+		neutralButton.disabled = true;
+		neutralButton.style.background = "#E3E3E3";
+		neutralButton.style.borderBottom = "#E3E3E3";
+		sleepyButton.disabled = true;
+		sleepyButton.style.background = "#E3E3E3";
+		sleepyButton.style.borderBottom = "#E3E3E3";
+		intensity.disabled = true;
+		intensity.style.background = "#E3E3E3";
+		intensityLabel.style.color = "#E3E3E3";
+		localVideo.style.display = 'none';
+		robotFrame.style.display = 'block';
+		}
+
+ }
+ 
  
  function toggleControl()
  {
@@ -1035,12 +1136,9 @@ function playSoundBeat() {
 
  }
  
- function init()
+ function initialize()
  {
- 		dataChannelSend.disabled = true;
-		sendButton.disabled = true;
-		sendButton.style.background = "#E3E3E3";
-		sendButton.style.borderBottom = "#E3E3E3";
+ 		
  }
 
 
