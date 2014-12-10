@@ -14,7 +14,7 @@ var fullscreenControl = (function () {
     initialHtmlBgColor = initialHtmlBgColor || $('html').css('background-color');
     $('html').css('background-color', 'black');
     initialBodyMargin = initialBodyMargin || $('body').css('margin');
-    $('body').css('margin', 0);
+    $('body').css({margin: 0, overflow: 'hidden'});
     initialVideoHeight = initialVideoHeight || $('#remoteVideo').css('height');
     initialVideoWidth = initialVideoWidth || $('#remoteVideo').css('width');
     prepareToggle();
@@ -23,7 +23,7 @@ var fullscreenControl = (function () {
     $('html').css('background-color', initialHtmlBgColor);
     $('#remoteVideo').css('height', initialVideoHeight);
     $('#remoteVideo').css('width', initialVideoWidth);
-    $('body').css('margin', initialBodyMargin);
+    $('body').css({margin: initialBodyMargin, overflow: 'visible'});
     prepareToggle();
   }
 
