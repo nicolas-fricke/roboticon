@@ -9,6 +9,26 @@ var mouthEmotion = 'neutral';
 
 var json;
 
+
+function emotionValues() {
+  console.log([
+    'eyebrowsShape: "{0}",',
+    ' eyebrowsRotation: {1},',
+    ' eyebrowsHeight: {2},',
+    ' eyelidsHeight: {3},',
+    ' eyeballsDirection: {4},',
+    ' eyeballsIntensity: {5},',
+    ' mouthEmotion: "{6}"'].join('\n').format(
+    eyebrowsShape,      // 0
+    eyebrowsRotation,   // 1
+    eyebrowsHeight,     // 2
+    eyelidsHeight,      // 3
+    eyeballsDirection,  // 4
+    eyeballsIntensity,  // 5
+    mouthEmotion        // 6
+  ));
+}
+
 function updateJson() {
   json = ['{',
           '  "eyebrows": {',
@@ -63,7 +83,7 @@ function changeValues() {
   mouthEmotion = $('input[name=mouthEmotion]:checked').val();
   updateJson();
   // console.log(json);
-  parseAndApplyJson(json);
+  RobotIcon.parseAndApplyJson(json);
 }
 
 String.prototype.format = function() {
@@ -149,4 +169,5 @@ function addControls() {
 
 $(document).ready(function() {
   addControls();
+  setTimeout(function(){$('.face').height($(document).height() - 120);}, 100);
 });
