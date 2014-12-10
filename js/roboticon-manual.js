@@ -9,7 +9,7 @@ var mouthEmotion = 'neutral';
 
 var json;
 
-updateJson = function() {
+function updateJson() {
   json = ['{',
           '  "eyebrows": {',
           '    "shapes": {',
@@ -52,7 +52,7 @@ updateJson = function() {
           )
 }
 
-changeValues = function() {
+function changeValues() {
   eyebrowsShape = $('input[name=eyebrowsShape]:checked').val();
   eyebrowsRotation = parseFloat($('#slider-eyebrowsRotation').val());
   eyebrowsHeight = parseFloat($('#slider-eyebrowsHeight').val());
@@ -76,7 +76,7 @@ String.prototype.format = function() {
 };
 
 
-addControls = function() {
+function addControls() {
   $('body').append( '<div id="manual-controls" style="color:#cccccc;width:100%;">' +
                     '  <div id="radio-eyebrowsShape" class="control-group">' +
                     '    <label for="radio-eyebrowsShape-angular">' +

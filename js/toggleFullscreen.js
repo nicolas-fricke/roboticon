@@ -5,12 +5,12 @@ var fullscreenControl = (function () {
   var initialVideoHeight;
   var initialVideoWidth;
 
-  prepareToggle = function() {
+  function prepareToggle() {
     $('#container').hide();
     $('#container-fullscreen-video').hide();
     $('#container-fullscreen-roboticon').hide();
   }
-  prepareFullscreen = function() {
+  function prepareFullscreen() {
     initialHtmlBgColor = initialHtmlBgColor || $('html').css('background-color');
     $('html').css('background-color', 'black');
     initialBodyMargin = initialBodyMargin || $('body').css('margin');
@@ -19,7 +19,7 @@ var fullscreenControl = (function () {
     initialVideoWidth = initialVideoWidth || $('#remoteVideo').css('width');
     prepareToggle();
   }
-  prepareNormal = function() {
+  function prepareNormal() {
     $('html').css('background-color', initialHtmlBgColor);
     $('#remoteVideo').css('height', initialVideoHeight);
     $('#remoteVideo').css('width', initialVideoWidth);
@@ -27,28 +27,28 @@ var fullscreenControl = (function () {
     prepareToggle();
   }
 
-  setFullscreenNone = function() {
+  function setFullscreenNone() {
     prepareNormal();
     $('#remote-video-container').append($('#remoteVideo'));
 
     $('#container').show();
     fullscreen = 'nothing';
   }
-  setVideoFullscreen = function() {
+  function setVideoFullscreen() {
     prepareFullscreen();
     $('#container-fullscreen-video').append($('#remoteVideo')).show();
     $('#remoteVideo').width($(window).width());
     $('#remoteVideo').height($(window).height());
     fullscreen = 'video';
   }
-  setRoboticonFullscreen = function() {
+  function setRoboticonFullscreen() {
     prepareFullscreen();
     $('#container-fullscreen-roboticon').show();
     $('.roboticon').height($(window).height());
     fullscreen = 'roboticon';
   }
 
-  toggleFullscreen = function() {
+  function toggleFullscreen() {
     switch (fullscreen) {
       case 'nothing':
         setVideoFullscreen();
@@ -63,7 +63,7 @@ var fullscreenControl = (function () {
     console.log('toggeling fullscreen to ' + fullscreen + '!');
   }
 
-  keyHandler = function(e) {
+  function keyHandler(e) {
     var tag = e.target.tagName.toLowerCase();
     if (e.which === 84 && tag != 'input' && tag != 'textarea')
       toggleFullscreen();

@@ -4,14 +4,14 @@ var templates;
 var blinkingInterval = 4000;
 var blinkingTimeout;
 
-ensureWithinRange = function(variable, min, max) {
+function ensureWithinRange(variable, min, max) {
   // default values
   if (min === undefined) min = 0;
   if (max === undefined) max = 1;
   return Math.min(Math.max(variable, min), max);
 }
 
-mergeIntoLeftRight = function(values) {
+function mergeIntoLeftRight(values) {
   if (bothSides = values.both_sides) {
     if (typeof bothSides === 'object')
       return {
@@ -23,15 +23,15 @@ mergeIntoLeftRight = function(values) {
   return values;
 }
 
-animateEyeballsDirection = function(positions, duration) {
+function animateEyeballsDirection(positions, duration) {
   positions = mergeIntoLeftRight(positions);
   if (duration == undefined) duration = 100;
   // The eyes can move within a circle of 18
 
   Object.keys(positions).forEach(function(side) {
-    intensity = ensureWithinRange(positions[side].intensity);
-    x = Math.sin(positions[side].direction * Math.PI / 180) * 18 * intensity;
-    y = Math.cos(positions[side].direction * Math.PI / 180) * 18 * intensity;
+    var intensity = ensureWithinRange(positions[side].intensity);
+    var x = Math.sin(positions[side].direction * Math.PI / 180) * 18 * intensity;
+    var y = Math.cos(positions[side].direction * Math.PI / 180) * 18 * intensity;
 
     face.eyeballs[side].group.obj.stop().animate({
       transform: (new Snap.Matrix()).translate(x, y)
@@ -41,8 +41,8 @@ animateEyeballsDirection = function(positions, duration) {
   })
 }
 
-animateEyebrowsShape = function(new_shapes, duration) {
-  new_shapes = mergeIntoLeftRight(new_shapes);
+function animateEyebrowsShape(new_shapes, duration) {
+  var new_shapes = mergeIntoLeftRight(new_shapes);
   if (duration == undefined) duration = 100;
 
   Object.keys(new_shapes).forEach(function(side) {
@@ -53,15 +53,16 @@ animateEyebrowsShape = function(new_shapes, duration) {
   })
 }
 
-animateEyebrowsTransform = function(transform, duration) {
+function animateEyebrowsTransform(transform, duration) {
   transform = mergeIntoLeftRight(transform);
   if (duration == undefined) duration = 100;
 
   Object.keys(transform).forEach(function(side) {
-    transformMatrix = new Snap.Matrix();
+    var transformMatrix = new Snap.Matrix();
+    var rotation, height;
 
     if (rotation = transform[side].rotation) {
-      boundingBox = face.eyebrows[side].obj.getBBox();
+      var boundingBox = face.eyebrows[side].obj.getBBox();
       transformMatrix.rotate(side === 'right' ? -rotation : rotation, boundingBox.cx, boundingBox.cy)
       face.eyebrows[side].val.rotation = rotation;
     }
@@ -81,12 +82,12 @@ animateEyebrowsTransform = function(transform, duration) {
   })
 }
 
-animateEyelids = function(heights, duration, dontSetValues) {
+function animateEyelids(heights, duration, dontSetValues) {
   heights = mergeIntoLeftRight(heights);
   if (duration == undefined) duration = 100;
 
   Object.keys(heights).forEach(function(side) {
-    translation = new Snap.Matrix();
+    var translation = new Snap.Matrix();
     translation.translate(0, ensureWithinRange(heights[side]) * 52);
     face.eyelids[side].obj.animate({
       transform: translation
@@ -95,7 +96,7 @@ animateEyelids = function(heights, duration, dontSetValues) {
   })
 }
 
-animateMouth = function(emotion, duration) {
+function animateMouth(emotion, duration) {
   if (duration == undefined) duration = 100;
   face.mouth.obj.stop().animate({
     d: templates.mouth[emotion].attr('d')
@@ -103,16 +104,16 @@ animateMouth = function(emotion, duration) {
   face.mouth.val.emotion = emotion;
 }
 
-setFace = function(emotion) {
+function setFace(emotion) {
   console.log(emotion + " face!!");
 }
 
-blinkEyes = function() {
-  closingDuration = 50;
-  closedDuration = 100;
-  openingDuration = 80;
+function blinkEyes() {
+  var closingDuration = 50;
+  var closedDuration = 100;
+  var openingDuration = 80;
 
-  normalClosedness = {};
+  var normalClosedness = {};
   ['left', 'right'].forEach(function(side) {
     // face.eyelids[side].obj.inAnim()
     normalClosedness[side] = face.eyelids[side].val.height;
@@ -121,22 +122,23 @@ blinkEyes = function() {
   setTimeout(function(){animateEyelids(normalClosedness, openingDuration, true)}, closingDuration + closedDuration);
 }
 
-blinkEyesInIntervals = function() {
+function blinkEyesInIntervals() {
   blinkEyes();
   blinkingTimeout = setTimeout(blinkEyesInIntervals, blinkingInterval);
 }
 
-updateBlinkingInterval = function(newBlinkingInterval) {
+function updateBlinkingInterval(newBlinkingInterval) {
   clearTimeout(blinkingTimeout);
   blinkingInterval = newBlinkingInterval;
   setTimeout(blinkEyesInIntervals, newBlinkingInterval / 2);
 }
 
-parseAndApplyJson = function(json) {
-  i = input = JSON.parse(json);
-  duration = 100;
+function parseAndApplyJson(json) {
+  var input = JSON.parse(json);
+  var duration = 100;
 
   if (input.eyebrows) {
+    var newShapes, transform, newColor;
     if (newShapes = input.eyebrows.shapes)
       animateEyebrowsShape(newShapes, duration);
     if (transform = input.eyebrows.transform)
@@ -146,6 +148,7 @@ parseAndApplyJson = function(json) {
   }
 
   if (input.eyelids) {
+    var newHeight, newBlinkingInterval;
     if (newHeight = input.eyelids.heights)
       animateEyelids(newHeight, duration);
     if (newBlinkingInterval = input.eyelids.blinking_interval)
@@ -153,6 +156,7 @@ parseAndApplyJson = function(json) {
   }
 
   if (input.eyeballs) {
+    var newPositions, newColors;
     if (newPositions = input.eyeballs.positions)
       animateEyeballsDirection(newPositions, duration);
     if (newColors = input.eyeballs.colors)
@@ -160,22 +164,25 @@ parseAndApplyJson = function(json) {
   }
 
   if (input.mouth) {
+    var emotion;
     if (emotion = input.mouth.emotion)
       animateMouth(emotion, duration);
   }
 
   if (input.hair) {
+    var new_color;
     if (new_color = input.hair.color)
       console.warn('Color changing for hair is not yet implemented.');
   }
 
   if (input.skin) {
+    var new_color;
     if (new_color = input.skin.color)
       console.warn('Color changing for skin is not yet implemented.');
   }
 }
 
-keypressed = function(e) {
+function keypressed(e) {
   switch (e.keyCode) {
     case 81: // q
     console.log('`q` pressed');
@@ -200,7 +207,7 @@ keypressed = function(e) {
   }
 }
 
-setFaces = function() {
+function setFaces() {
   face = {
     eyebrows: {
       left: {
