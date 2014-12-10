@@ -63,7 +63,7 @@ function changeValues() {
   mouthEmotion = $('input[name=mouthEmotion]:checked').val();
   updateJson();
   // console.log(json);
-  parseAndApplyJson(json);
+  RobotIcon.parseAndApplyJson(json);
 }
 
 String.prototype.format = function() {
