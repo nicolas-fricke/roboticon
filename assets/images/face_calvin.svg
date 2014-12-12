@@ -50,12 +50,16 @@
         </g>
         <g id="eyebrows" class="eyebrows" stroke-width="7" stroke="#432F1D">
           <g id="eyebrow-left" class="eyebrow left">
-            <path id="eyebrow-left-animated" class="eyebrow left animated" d="M0.5 25.1C0.5 25.1 8.8 7.6 15.6 5.2 22.4 2.8 70.9 11.4 70.9 11.4"/>
+            <g id="eyebrow-left-box" class="eyebrow right box">
+              <path id="eyebrow-left-animated" class="eyebrow left animated" d="M0.5 25.1C0.5 25.1 8.8 7.6 15.6 5.2 22.4 2.8 70.9 11.4 70.9 11.4"/>
+            </g>
             <path id="eyebrow-left-angular" class="eyebrow left angular" d="M0.5 25.1C0.5 25.1 8.8 7.6 15.6 5.2 22.4 2.8 70.9 11.4 70.9 11.4" style="display:none;"/>
             <path id="eyebrow-left-round" class="eyebrow left round" d="M0.5 26.1C0.5 26.1 7.2 5.4 29.5 0.8 51.8-3.8 70.9 12.4 70.9 12.4" style="display:none;"/>
           </g>
           <g id="eyebrow-right" class="eyebrow right" transform="translate(104.000000, 0.000000)">
-            <path id="eyebrow-right-animated" class="eyebrow right animated" d="M-0.3 11.6C-0.3 11.6 45.4 1.7 54.2 5.2 63 8.8 64.8 21.5 64.8 21.5"/>
+            <g id="eyebrow-right-box" class="eyebrow right box">
+              <path id="eyebrow-right-animated" class="eyebrow right animated" d="M-0.3 11.6C-0.3 11.6 45.4 1.7 54.2 5.2 63 8.8 64.8 21.5 64.8 21.5"/>
+            </g>
             <path id="eyebrow-right-angular" class="eyebrow right angular" d="M-0.3 11.6C-0.3 11.6 45.4 1.7 54.2 5.2 63 8.8 64.8 21.5 64.8 21.5" style="display:none;"/>
             <path id="eyebrow-right-round" class="eyebrow right round" d="M-0.3 12.6C-0.3 12.6 17.7-4 40.2 1.4 62.8 6.8 64.8 22.5 64.8 22.5" style="display:none;"/>
           </g>

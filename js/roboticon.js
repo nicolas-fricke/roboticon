@@ -52,7 +52,7 @@ var RobotIcon = (function () {
     if (duration == undefined) duration = 100;
 
     Object.keys(new_shapes).forEach(function(side) {
-      face.eyebrows[side].obj.animate({
+      face.eyebrows[side].obj.eyebrow.animate({
         d: templates.eyebrows[side][new_shapes[side]].attr('d')
       }, duration, mina.easeinout);
       face.eyebrows[side].val.shape = new_shapes[side];
@@ -60,32 +60,49 @@ var RobotIcon = (function () {
   }
 
   function animateEyebrowsTransform(transform, duration) {
+    animateEyebrowsRotation(transform, duration);
+    animateEyebrowsHeight(transform, duration);
+  }
+
+  function animateEyebrowsHeight(transform, duration) {
     transform = mergeIntoLeftRight(transform);
     if (duration == undefined) duration = 100;
 
     Object.keys(transform).forEach(function(side) {
-      var transformMatrix = new Snap.Matrix();
-      var rotation = transform[side].rotation;
       var height = transform[side].height;
-
-      if (typeof rotation !== 'undefined') {
-        var boundingBox = face.eyebrows[side].obj.getBBox();
-        transformMatrix.rotate(side === 'right' ? -rotation : rotation, boundingBox.cx, boundingBox.cy);
-        face.eyebrows[side].val.rotation = rotation;
-      }
-
       if (typeof height !== 'undefined') {
-            // -19 is the lowest good looking position for the eyebrows,
-            // +10 is the highest one, therefore norm height to:
-            height = - (ensureWithinRange(height) * 29 - 10);
-            transformMatrix.translate(0, height);
-            face.eyebrows[side].val.height = height;
-      }
+        var transformMatrix = new Snap.Matrix();
+        // -19 is the lowest good looking position for the eyebrows,
+        // +10 is the highest one, therefore norm height to:
+        height = - (ensureWithinRange(height) * 29 - 10);
+        transformMatrix.translate(0, height);
+        face.eyebrows[side].val.height = height;
 
-      face.eyebrows[side].obj.animate({
-        transform: transformMatrix
-      }, duration, mina.easeout);
-      face.eyebrows[side].val.transform = jQuery.extend(true, {}, face.eyebrows[side].val.transform, transform[side]);
+        face.eyebrows[side].obj.box.animate({
+          transform: transformMatrix
+        }, duration, mina.easeout);
+        face.eyebrows[side].val.transform = jQuery.extend(true, {}, face.eyebrows[side].val.transform, transform[side]);
+      }
+    })
+  }
+
+  function animateEyebrowsRotation(transform, duration) {
+    transform = mergeIntoLeftRight(transform);
+    if (duration == undefined) duration = 100;
+
+    Object.keys(transform).forEach(function(side) {
+      var rotation = transform[side].rotation;
+      if (typeof rotation !== 'undefined') {
+        var transformMatrix = new Snap.Matrix();
+        // (35,15) is the optimal center of the eyebrow rotation for both sides
+        transformMatrix.rotate(side === 'right' ? -rotation : rotation, 35, 15);
+        face.eyebrows[side].val.rotation = rotation;
+
+        face.eyebrows[side].obj.eyebrow.animate({
+          transform: transformMatrix
+        }, duration, mina.easeout);
+        face.eyebrows[side].val.transform = jQuery.extend(true, {}, face.eyebrows[side].val.transform, transform[side]);
+      }
     })
   }
 
@@ -188,11 +205,19 @@ var RobotIcon = (function () {
     face = {
       eyebrows: {
         left: {
-          obj: snap.select('#eyebrow-left-animated'),
+          obj: {
+            eyebrow: snap.select('#eyebrow-left-animated'),
+            box: snap.select('#eyebrow-left-box'),
+            rotationCenter: snap.select('#eyebrow-left-center')
+          },
           val: {shape: 'angular', rotation: 0, height: 0.35}
         },
         right: {
-          obj: snap.select('#eyebrow-right-animated'),
+          obj: {
+            eyebrow: snap.select('#eyebrow-right-animated'),
+            box: snap.select('#eyebrow-right-box'),
+            rotationCenter: snap.select('#eyebrow-right-center')
+          },
           val: {shape: 'angular', rotation: 0, height: 0.35}
         }
       },
@@ -259,6 +284,8 @@ var RobotIcon = (function () {
     animateEyeballsDirection: animateEyeballsDirection,
     animateEyebrowsShape: animateEyebrowsShape,
     animateEyebrowsTransform: animateEyebrowsTransform,
+    // animateEyebrowsHeight: animateEyebrowsHeight,
+    // animateEyebrowsRotation: animateEyebrowsRotation,
     animateEyelids: animateEyelids,
     animateMouth: animateMouth,
     updateBlinkingInterval: updateBlinkingInterval,
