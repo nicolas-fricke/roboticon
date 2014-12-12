@@ -702,4 +702,5 @@ function sendDataReverse() {
 function change_emotion(jsonStr) {
   console.log('change_emotion function was called');
   console.log(jsonStr);
+  RobotIcon.parseAndApplyJson(jsonStr);
  }

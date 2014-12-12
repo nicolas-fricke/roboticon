@@ -1161,7 +1161,14 @@ function sendAngry(intensity){
 }
 
 function sendUncertain(intensity){
-  setEmotionValues({}); 
+  setEmotionValues({
+    eyebrowsShape: "angular",
+    eyebrowsRotation: 0,
+    eyebrowsHeight: 1,
+    eyelidsHeight: 0.85,
+    eyeballsDirection: 82,
+    eyeballsIntensity: 0
+  }); 
 }
 
 function sendNeutral(intensity){
