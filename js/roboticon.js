@@ -64,7 +64,7 @@ var RobotIcon = (function () {
 
       if (rotation = transform[side].rotation) {
         var boundingBox = face.eyebrows[side].obj.getBBox();
-        transformMatrix.rotate(side === 'right' ? -rotation : rotation, boundingBox.cx, boundingBox.cy)
+        transformMatrix.rotate(side === 'right' ? -rotation : rotation, boundingBox.cx, boundingBox.cy);
         face.eyebrows[side].val.rotation = rotation;
       }
 
