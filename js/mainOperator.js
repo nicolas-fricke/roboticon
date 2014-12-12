@@ -1103,7 +1103,9 @@ function sendHappy(intensity){
 }
 
 function sendSad(intensity){
-  setEmotionValues({});
+  setEmotionValues({
+    mouthEmotion: "sad"
+  });
 }
 
 function sendAngry(intensity){
@@ -1136,7 +1138,8 @@ function setEmotionValues(emotionValues) {
     eyebrowsHeight: 0.5,
     eyelidsHeight: 0.5,
     eyeballsDirection: 60,
-    eyeballsIntensity: 0.5
+    eyeballsIntensity: 0.5,
+    mouthEmotion: "neutral"
   };
 
   var mergedValues = jQuery.extend(true, {}, defaultEmotionValues, emotionValues)
@@ -1163,6 +1166,9 @@ function setEmotionValues(emotionValues) {
                             intensity: mergedValues.eyeballsIntensity
                           },
                         },
+                      },
+                      mouth: {
+                        emotion: mergedValues.mouthEmotion
                       }
                     };
 
