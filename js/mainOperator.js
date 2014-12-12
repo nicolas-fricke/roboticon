@@ -1096,39 +1096,74 @@ function playSoundBeat() {
 
 function sendHappy(intensity){
   setEmotionValues({
-    eyebrowsShape: "angular",
-    eyebrowsRotation: 60,
-    eyebrowsHeight: 0.3
+    eyebrowsShape: "round",
+ eyebrowsRotation: 4,
+ eyebrowsHeight: 0.5,
+ eyelidsHeight: 0,
+ eyeballsDirection: 0,
+ eyeballsIntensity: 0,
+ mouthEmotion: "happy"
   });
 }
 
 function sendSad(intensity){
   setEmotionValues({
-    mouthEmotion: "sad"
+  eyebrowsShape: "angular",
+ eyebrowsRotation: -17,
+ eyebrowsHeight: 0.45,
+ eyelidsHeight: 0.55,
+ eyeballsDirection: 0,
+ eyeballsIntensity: 0.35,
+ mouthEmotion: "sad"
   });
 }
 
 function sendAngry(intensity){
-  setEmotionValues({});
+  setEmotionValues({
+  eyebrowsShape: "angular",
+ eyebrowsRotation: 22,
+ eyebrowsHeight: 0.15,
+ eyelidsHeight: 0.15,
+ eyeballsDirection: 0,
+ eyeballsIntensity: 0,
+ mouthEmotion: "angry"
+  });
 }
 
 function sendUncertain(intensity){
   setEmotionValues({
     eyebrowsShape: "angular",
-    eyebrowsRotation: 0,
-    eyebrowsHeight: 1,
-    eyelidsHeight: 0.85,
-    eyeballsDirection: 82,
-    eyeballsIntensity: 0
+ eyebrowsRotation: -8,
+ eyebrowsHeight: 0.5,
+ eyelidsHeight: 0,
+ eyeballsDirection: 119,
+ eyeballsIntensity: 0,
+ mouthEmotion: "uncertain"
   });
 }
 
 function sendNeutral(intensity){
-  setEmotionValues({});
+  setEmotionValues({
+  eyebrowsShape: "angular",
+ eyebrowsRotation: 0,
+ eyebrowsHeight: 0.3,
+ eyelidsHeight: 0.1,
+ eyeballsDirection: 0.2,
+ eyeballsIntensity: 0.4,
+ mouthEmotion: "neutral"
+  });
 }
 
 function sendSleepy(intensity){
-  setEmotionValues({});
+  setEmotionValues({
+  eyebrowsShape: "round",
+ eyebrowsRotation: -9,
+ eyebrowsHeight: 0.45,
+ eyelidsHeight: 0.6,
+ eyeballsDirection: 0,
+ eyeballsIntensity: 0.3,
+ mouthEmotion: "neutral"
+  });
 }
 
 function setEmotionValues(emotionValues) {
