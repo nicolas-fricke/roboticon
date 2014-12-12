@@ -26,9 +26,9 @@
 
     <div id='control'>
       <div id='localVideoPanel'>
-        <iframe id="robotFrame" src="./robot.html" scrolling="no">
-          <p>Your browser does not support iframes.</p>
-        </iframe>
+        <object id="robotIcon" class="roboticon svgContainer" data="assets/images/face_calvin.svg" type="image/svg+xml">
+          <p class="fallback-message">Sorry, something went wrong – does your browser support SVG? Try using Google Chrome.</p>
+        </object>
         <video id='localVideo' autoplay hidden></video>
       </div>
       <div id='controlPanel'>

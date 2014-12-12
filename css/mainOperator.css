@@ -31,19 +31,16 @@ body {
   width: 200px;
   height: 200px;
 }
-.face {
-  width: 180px;
-}
 #localVideoPanel {
   height: 202px;
   width: 358px;
   margin: 25px;
   position: relative;
-  border: 1px solid #000000
+  border: 1px solid #000000;
 }
-#robotFrame {
-  height: 200px;
-  width: 356px;
+#robotIcon {
+  display: block;
+  margin: auto;
 }
 .LOGOS {
   margin-top: 3px;
