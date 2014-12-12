@@ -262,7 +262,7 @@ var RobotIcon = (function () {
     animateEyelids: animateEyelids,
     animateMouth: animateMouth,
     updateBlinkingInterval: updateBlinkingInterval,
-    __faceValues__: getFace
+    __getInternalFace__: getFace
   };
 })();
 
