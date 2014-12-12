@@ -118,11 +118,6 @@ h1 {
 input[type="range"] {
   width: 90px;
 }
-label {
-  display: inline-block;
-  float: left;
-  width: 90px;
-}
 .option {
   margin: 1em 0;
 }
