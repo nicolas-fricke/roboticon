@@ -1144,10 +1144,11 @@ function playSoundBeat() {
  }
 
 
-function sendHappy(intensity){
+function sendHappy(){
+	 		console.log('happy');
   setEmotionValues({
     eyebrowsShape: "angular", 
-    eyebrowsRotation: 60, 
+    eyebrowsRotation: 49, 
     eyebrowsHeight: 0.3
   });
 }

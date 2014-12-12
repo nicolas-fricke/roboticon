@@ -62,18 +62,18 @@ var RobotIcon = (function () {
       var transformMatrix = new Snap.Matrix();
       var rotation, height;
 
-      if (rotation = transform[side].rotation) {
-        var boundingBox = face.eyebrows[side].obj.getBBox();
-        transformMatrix.rotate(side === 'right' ? -rotation : rotation, boundingBox.cx, boundingBox.cy)
-        face.eyebrows[side].val.rotation = rotation;
-      }
-
       if (height = transform[side].height) {
             // -19 is the lowest good looking position for the eyebrows,
             // +10 is the highest one, therefore norm height to:
             height = - (ensureWithinRange(height) * 29 - 10);
             transformMatrix.translate(0, height);
             face.eyebrows[side].val.height = height;
+      }
+
+      if (rotation = transform[side].rotation) {
+        var boundingBox = face.eyebrows[side].obj.getBBox();
+        transformMatrix.rotate(side === 'right' ? -rotation : rotation, boundingBox.cx, boundingBox.cy)
+        face.eyebrows[side].val.rotation = rotation;
       }
 
       face.eyebrows[side].obj.animate({
