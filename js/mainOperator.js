@@ -808,8 +808,6 @@ function CabezaAbajo() {
 window.addEventListener('load', init, false);
 
 function init() {
-	changeMode();
-	toggleControl();
   try {
     // Fix up for prefixing
     window.AudioContext = window.AudioContext||window.webkitAudioContext;
@@ -823,6 +821,8 @@ function init() {
   catch(e) {
     alert('Web Audio API is not supported in this browser');
   }
+  changeMode();
+  toggleControl();
 }
 
 
@@ -953,142 +953,92 @@ function playSoundBeat() {
     return window.peer.stream;
   }
 
- function toggleEmotions()
- {
-		if(!emotionsCheckbox.checked)
-		{
-		happyButton.disabled = true;
-		happyButton.style.background =  "#E3E3E3";
-		happyButton.style.borderBottom = "#E3E3E3";
-		sadButton.disabled = true;
-		sadButton.style.background = "#E3E3E3";
-		sadButton.style.borderBottom = "#E3E3E3";
-		angryButton.disabled = true;
-		angryButton.style.background = "#E3E3E3";
-		angryButton.style.borderBottom = "#E3E3E3";
-		uncertainButton.disabled = true;
-		uncertainButton.style.background = "#E3E3E3";
-		uncertainButton.style.borderBottom = "#E3E3E3";
-		neutralButton.disabled = true;
-		neutralButton.style.background = "#E3E3E3";
-		neutralButton.style.borderBottom = "#E3E3E3";
-		sleepyButton.disabled = true;
-		sleepyButton.style.background = "#E3E3E3";
-		sleepyButton.style.borderBottom = "#E3E3E3";
-		intensity.disabled = true;
-		intensity.style.background = "#E3E3E3";
-		intensityLabel.style.color = "#E3E3E3";
-		localVideo.style.display = 'block';
-		robotIcon.style.display = 'none';
-		}
-		else
-		{
-		happyButton.disabled = false;
-		happyButton.style.background = "#1E90FF";
-		happyButton.style.borderBottom = "#7d7d7d";
-		sadButton.disabled = false;
-		sadButton.style.background = "#1E90FF";
-		sadButton.style.borderBottom = "#7d7d7d";
-		angryButton.disabled = false;
-		angryButton.style.background = "#1E90FF";
-		angryButton.style.borderBottom = "#7d7d7d";
-		uncertainButton.disabled = false;
-		uncertainButton.style.background = "#1E90FF";
-		uncertainButton.style.borderBottom = "#7d7d7d";
-		neutralButton.disabled = false;
-		neutralButton.style.background = "#1E90FF";
-		neutralButton.style.borderBottom =  "#7d7d7d";
-		sleepyButton.disabled = false;
-		sleepyButton.style.background = "#1E90FF";
-		sleepyButton.style.borderBottom = "#7d7d7d";
-		intensity.disabled = false;
-		intensity.style.background = "#1E90FF";
-		intensityLabel.style.color = "black";
-		localVideo.style.display = 'none';
-		robotIcon.style.display = 'block';
-		}
-
- }
+ 
 
  function changeMode()
  {
+    console.log('changeMode was called');
+    console.log('selectedIndex is'+modeSelector.selectedIndex);
 		if(modeSelector.selectedIndex == 1)
 		{
-		happyButton.disabled = true;
-		happyButton.style.background =  "#E3E3E3";
-		happyButton.style.borderBottom = "#E3E3E3";
-		sadButton.disabled = true;
-		sadButton.style.background = "#E3E3E3";
-		sadButton.style.borderBottom = "#E3E3E3";
-		angryButton.disabled = true;
-		angryButton.style.background = "#E3E3E3";
-		angryButton.style.borderBottom = "#E3E3E3";
-		uncertainButton.disabled = true;
-		uncertainButton.style.background = "#E3E3E3";
-		uncertainButton.style.borderBottom = "#E3E3E3";
-		neutralButton.disabled = true;
-		neutralButton.style.background = "#E3E3E3";
-		neutralButton.style.borderBottom = "#E3E3E3";
-		sleepyButton.disabled = true;
-		sleepyButton.style.background = "#E3E3E3";
-		sleepyButton.style.borderBottom = "#E3E3E3";
-		intensitySlider.disabled = true;
-		intensitySlider.style.background = "#E3E3E3";
-		intensityLabel.style.color = "#E3E3E3";
-		localVideo.style.display = 'block';
-		robotIcon.style.display = 'none';
+  		happyButton.disabled = true;
+  		happyButton.style.background =  "#E3E3E3";
+  		happyButton.style.borderBottom = "#E3E3E3";
+  		sadButton.disabled = true;
+  		sadButton.style.background = "#E3E3E3";
+  		sadButton.style.borderBottom = "#E3E3E3";
+  		angryButton.disabled = true;
+  		angryButton.style.background = "#E3E3E3";
+  		angryButton.style.borderBottom = "#E3E3E3";
+  		uncertainButton.disabled = true;
+  		uncertainButton.style.background = "#E3E3E3";
+  		uncertainButton.style.borderBottom = "#E3E3E3";
+  		neutralButton.disabled = true;
+  		neutralButton.style.background = "#E3E3E3";
+  		neutralButton.style.borderBottom = "#E3E3E3";
+  		sleepyButton.disabled = true;
+  		sleepyButton.style.background = "#E3E3E3";
+  		sleepyButton.style.borderBottom = "#E3E3E3";
+  		intensitySlider.disabled = true;
+  		intensitySlider.style.background = "#E3E3E3";
+  		intensityLabel.style.color = "#E3E3E3";
+  		localVideo.style.display = 'block';
+      robotIcon.style.display = 'none';
+      sendChangeMode(1);
 		}
 		else if(modeSelector.selectedIndex == 0)
 		{
-		happyButton.disabled = false;
-		happyButton.style.background = "#1E90FF";
-		happyButton.style.borderBottom = "#7d7d7d";
-		sadButton.disabled = false;
-		sadButton.style.background = "#1E90FF";
-		sadButton.style.borderBottom = "#7d7d7d";
-		angryButton.disabled = false;
-		angryButton.style.background = "#1E90FF";
-		angryButton.style.borderBottom = "#7d7d7d";
-		uncertainButton.disabled = false;
-		uncertainButton.style.background = "#1E90FF";
-		uncertainButton.style.borderBottom = "#7d7d7d";
-		neutralButton.disabled = false;
-		neutralButton.style.background = "#1E90FF";
-		neutralButton.style.borderBottom =  "#7d7d7d";
-		sleepyButton.disabled = false;
-		sleepyButton.style.background = "#1E90FF";
-		sleepyButton.style.borderBottom = "#7d7d7d";
-		intensitySlider.disabled = false;
-		intensitySlider.style.background = "#1E90FF";
-		intensityLabel.style.color = "black";
-		localVideo.style.display = 'none';
-		robotIcon.style.display = 'block';
+  		happyButton.disabled = false;
+  		happyButton.style.background = "#1E90FF";
+  		happyButton.style.borderBottom = "#7d7d7d";
+  		sadButton.disabled = false;
+  		sadButton.style.background = "#1E90FF";
+  		sadButton.style.borderBottom = "#7d7d7d";
+  		angryButton.disabled = false;
+  		angryButton.style.background = "#1E90FF";
+  		angryButton.style.borderBottom = "#7d7d7d";
+  		uncertainButton.disabled = false;
+  		uncertainButton.style.background = "#1E90FF";
+  		uncertainButton.style.borderBottom = "#7d7d7d";
+  		neutralButton.disabled = false;
+  		neutralButton.style.background = "#1E90FF";
+  		neutralButton.style.borderBottom =  "#7d7d7d";
+  		sleepyButton.disabled = false;
+  		sleepyButton.style.background = "#1E90FF";
+  		sleepyButton.style.borderBottom = "#7d7d7d";
+  		intensitySlider.disabled = false;
+  		intensitySlider.style.background = "#1E90FF";
+  		intensityLabel.style.color = "black";
+  		localVideo.style.display = 'none';
+  		robotIcon.style.display = 'block';
+      sendChangeMode(0);
 		}
 		else
 		{
-		happyButton.disabled = true;
-		happyButton.style.background =  "#E3E3E3";
-		happyButton.style.borderBottom = "#E3E3E3";
-		sadButton.disabled = true;
-		sadButton.style.background = "#E3E3E3";
-		sadButton.style.borderBottom = "#E3E3E3";
-		angryButton.disabled = true;
-		angryButton.style.background = "#E3E3E3";
-		angryButton.style.borderBottom = "#E3E3E3";
-		uncertainButton.disabled = true;
-		uncertainButton.style.background = "#E3E3E3";
-		uncertainButton.style.borderBottom = "#E3E3E3";
-		neutralButton.disabled = true;
-		neutralButton.style.background = "#E3E3E3";
-		neutralButton.style.borderBottom = "#E3E3E3";
-		sleepyButton.disabled = true;
-		sleepyButton.style.background = "#E3E3E3";
-		sleepyButton.style.borderBottom = "#E3E3E3";
-		intensitySlider.disabled = true;
-		intensitySlider.style.background = "#E3E3E3";
-		intensityLabel.style.color = "#E3E3E3";
-		localVideo.style.display = 'none';
-		robotIcon.style.display = 'block';
+  		happyButton.disabled = true;
+  		happyButton.style.background =  "#E3E3E3";
+  		happyButton.style.borderBottom = "#E3E3E3";
+  		sadButton.disabled = true;
+  		sadButton.style.background = "#E3E3E3";
+  		sadButton.style.borderBottom = "#E3E3E3";
+  		angryButton.disabled = true;
+  		angryButton.style.background = "#E3E3E3";
+  		angryButton.style.borderBottom = "#E3E3E3";
+  		uncertainButton.disabled = true;
+  		uncertainButton.style.background = "#E3E3E3";
+  		uncertainButton.style.borderBottom = "#E3E3E3";
+  		neutralButton.disabled = true;
+  		neutralButton.style.background = "#E3E3E3";
+  		neutralButton.style.borderBottom = "#E3E3E3";
+  		sleepyButton.disabled = true;
+  		sleepyButton.style.background = "#E3E3E3";
+  		sleepyButton.style.borderBottom = "#E3E3E3";
+  		intensitySlider.disabled = true;
+  		intensitySlider.style.background = "#E3E3E3";
+  		intensityLabel.style.color = "#E3E3E3";
+  		localVideo.style.display = 'none';
+  		robotIcon.style.display = 'block';
+      sendChangeMode(2);
 		}
 
  }
@@ -1262,3 +1212,11 @@ function changeEmotion(jsonChanges) {
   sendChannel.send(data);
   trace(user + ' envia dato: ' + data);
 }
+
+function sendChangeMode(mode) {
+  var data = 'MODECH:'+mode;
+  console.log('sendChangeMode was called -- '+data);
+  sendChannel.send(data);
+  trace(user + ' envia dato: ' + data);
+}
+
