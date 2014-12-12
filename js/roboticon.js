@@ -240,7 +240,9 @@ var RobotIcon = (function () {
   }
 
   function initialize() {
-    snap = Snap('#face-container');
+    var faceContainer = $('.roboticon');
+    faceContainer.height(faceContainer.parent().height());
+    snap = Snap('.roboticon');
     setFaces();
     updateBlinkingInterval(blinkingInterval);
   }
@@ -259,6 +261,6 @@ var RobotIcon = (function () {
   };
 })();
 
-$('#face-container').load(function() {
+$('.roboticon').load(function() {
   RobotIcon.initialize();
 })
