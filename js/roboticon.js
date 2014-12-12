@@ -13,13 +13,18 @@ var RobotIcon = (function () {
   }
 
   function mergeIntoLeftRight(values) {
-    if (bothSides = values.both_sides) {
-      if (typeof bothSides === 'object')
+    var bothSides = values.both_sides;
+    if (typeof bothSides !== 'undefined') {
+      if (typeof bothSides === 'object') {
         return {
           left:  jQuery.extend(true, {}, bothSides, values.left),
           right: jQuery.extend(true, {}, bothSides, values.right)
         };
-      return {left: values.left || bothSides, right: values.right || bothSides};
+      }
+      return {
+        left: typeof values.left !== 'undefined' ? values.left : bothSides,
+        right: typeof values.right !== 'undefined' ? values.right : bothSides
+      }
     }
     return values;
   }
@@ -60,15 +65,16 @@ var RobotIcon = (function () {
 
     Object.keys(transform).forEach(function(side) {
       var transformMatrix = new Snap.Matrix();
-      var rotation, height;
+      var rotation = transform[side].rotation;
+      var height = transform[side].height;
 
-      if (rotation = transform[side].rotation) {
+      if (typeof rotation !== 'undefined') {
         var boundingBox = face.eyebrows[side].obj.getBBox();
         transformMatrix.rotate(side === 'right' ? -rotation : rotation, boundingBox.cx, boundingBox.cy);
         face.eyebrows[side].val.rotation = rotation;
       }
 
-      if (height = transform[side].height) {
+      if (typeof height !== 'undefined') {
             // -19 is the lowest good looking position for the eyebrows,
             // +10 is the highest one, therefore norm height to:
             height = - (ensureWithinRange(height) * 29 - 10);
