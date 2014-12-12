@@ -38,7 +38,7 @@ var intensityLabel = document.querySelector('label#intensityLabel');
 
 var localVideoPanel = document.querySelector('div#localVideoPanel');
 var localVideo = document.querySelector('video#localVideo');
-var robotFrame = document.querySelector('iframe#robotFrame');
+var robotIcon = document.querySelector('object#robotIcon');
 
 //var CabezaArribaButton = document.querySelector('button#CabezaArriba');
 //var CabezaNormalButton = document.querySelector('button#CabezaNormal');
@@ -979,7 +979,7 @@ function playSoundBeat() {
 		intensity.style.background = "#E3E3E3";
 		intensityLabel.style.color = "#E3E3E3";
 		localVideo.style.display = 'block';
-		robotFrame.style.display = 'none';
+		robotIcon.style.display = 'none';
 		}
 		else
 		{
@@ -1005,11 +1005,11 @@ function playSoundBeat() {
 		intensity.style.background = "#1E90FF";
 		intensityLabel.style.color = "black";
 		localVideo.style.display = 'none';
-		robotFrame.style.display = 'block';
+		robotIcon.style.display = 'block';
 		}
 
  }
- 
+
  function changeMode()
  {
     console.log('changeMode was called');
@@ -1038,7 +1038,7 @@ function playSoundBeat() {
   		intensitySlider.style.background = "#E3E3E3";
   		intensityLabel.style.color = "#E3E3E3";
   		localVideo.style.display = 'block';
-  		robotFrame.style.display = 'none';
+      robotIcon.style.display = 'none';
       sendChangeMode(1);
 		}
 		else if(modeSelector.selectedIndex == 0)
@@ -1065,7 +1065,7 @@ function playSoundBeat() {
   		intensitySlider.style.background = "#1E90FF";
   		intensityLabel.style.color = "black";
   		localVideo.style.display = 'none';
-  		robotFrame.style.display = 'block';
+  		robotIcon.style.display = 'block';
       sendChangeMode(0);
 		}
 		else
@@ -1092,13 +1092,13 @@ function playSoundBeat() {
   		intensitySlider.style.background = "#E3E3E3";
   		intensityLabel.style.color = "#E3E3E3";
   		localVideo.style.display = 'none';
-  		robotFrame.style.display = 'block';
+  		robotIcon.style.display = 'block';
       sendChangeMode(2);
 		}
 
  }
- 
- 
+
+
  function toggleControl()
  {
 		if(!controlCheckbox.checked)
@@ -1141,7 +1141,7 @@ function playSoundBeat() {
 		}
 
  }
- 
+
  function updateIntensity()
  {
  		intensity = intensitySlider.value/intensity;
@@ -1151,14 +1151,14 @@ function playSoundBeat() {
 
 function sendHappy(intensity){
   setEmotionValues({
-    eyebrowsShape: "angular", 
-    eyebrowsRotation: 60, 
+    eyebrowsShape: "angular",
+    eyebrowsRotation: 60,
     eyebrowsHeight: 0.3
   });
 }
 
 function sendSad(intensity){
-  setEmotionValues({}); 
+  setEmotionValues({});
 }
 
 function sendAngry(intensity){
@@ -1173,7 +1173,7 @@ function sendUncertain(intensity){
     eyelidsHeight: 0.85,
     eyeballsDirection: 82,
     eyeballsIntensity: 0
-  }); 
+  });
 }
 
 function sendNeutral(intensity){
@@ -1186,9 +1186,9 @@ function sendSleepy(intensity){
 
 function setEmotionValues(emotionValues) {
   var defaultEmotionValues = {
-    eyebrowsShape: "round", 
-    eyebrowsRotation: 90, 
-    eyebrowsHeight: 0.5, 
+    eyebrowsShape: "round",
+    eyebrowsRotation: 90,
+    eyebrowsHeight: 0.5,
     eyelidsHeight: 0.5,
     eyeballsDirection: 60,
     eyeballsIntensity: 0.5
@@ -1203,7 +1203,7 @@ function setEmotionValues(emotionValues) {
                           both_sides: {
                             rotation: mergedValues.eyebrowsRotation,
                             height: mergedValues.eyebrowsHeight
-                          }  
+                          }
                         },
                       },
                       eyelids: {
@@ -1219,7 +1219,7 @@ function setEmotionValues(emotionValues) {
                           },
                         },
                       }
-                    }; 
+                    };
 
   changeEmotion(jsonChanges);
 }
@@ -1237,6 +1237,4 @@ function sendChangeMode(mode) {
   sendChannel.send(data);
   trace(user + ' envia dato: ' + data);
 }
-
-
 

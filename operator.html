@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta name='keywords' content='WebRTC, HTML5, JavaScript' />
   <meta name='description' content='WebRTC Reference App' />
@@ -11,192 +12,96 @@
 
   <title>Operator</title>
 
-  <link rel='stylesheet'  type="text/css" href='css/mainOperator.css' />
-
+  <link rel='stylesheet' type="text/css" href='css/mainOperator.css' />
 </head>
+
 <body>
   <div id='container'>
-<!--  <div class='LOGOS'>
-	<img src="mashiWeb.png" alt="Mashi" height="110">
-	<img src="logoUPC.jpg" alt="UPC" height="100">
-	<img src="logoESPOL.jpg" alt="ESPOL" height="100">
-	<img src="logoSENESCYT.png" alt="ESPOL" height="110">
-	<img src="logoCATECH.jpg" alt="ESPOL" height="80">
-	<img src="logoMANTIS.png" alt="ESPOL" height="80">
-	</div>
--->
-	
-	<div id='communicationPanel'>
-   <video id='remoteVideoFrontal' autoplay></video> 
-  <input type="text" id="dataChannelSend" name="dataChannelSend">
-  <button id="sendButton" >Send</button></th>
-  </div>
+    <div id='communicationPanel'>
+      <video id='remoteVideoFrontal' autoplay></video>
+      <input type="text" id="dataChannelSend" name="dataChannelSend">
+      <button id="sendButton">Send</button>
+      </th>
+    </div>
 
-  <div id='control'> 
-  <div id='localVideoPanel'>
-  <iframe id="robotFrame" src="./robot.html" scrolling="no">
-  	<p>Your browser does not support iframes.</p>
-	</iframe>
-  <video id='localVideo' autoplay hidden></video> 
-	</div>
-   <div id='controlPanel'>
+    <div id='control'>
+      <div id='localVideoPanel'>
+        <object id="robotIcon" class="roboticon svgContainer" data="assets/images/face_calvin.svg" type="image/svg+xml">
+          <p class="fallback-message">Sorry, something went wrong – does your browser support SVG? Try using Google Chrome.</p>
+        </object>
+        <video id='localVideo' autoplay hidden></video>
+      </div>
+      <div id='controlPanel'>
 
-<form>
-<select id="modeSelector">
-  <option value="Emotions">Emotions</option>
-  <option value="Operator">Operator</option>
-  <option value="Menu">Menu</option>
-</select>
-</form>
+        <form>
+          <select id="modeSelector">
+            <option value="Emotions">Emotions</option>
+            <option value="Operator">Operator</option>
+            <option value="Menu">Menu</option>
+          </select>
+        </form>
 
-		<table class="emotions">
-			<tr>
-				<th><button id="happyButton">Happy</button></th>
-				<th><button id="sadButton">Sad</button></th>
-				<th><button id="angryButton">Angry</button></th>
-			</tr>  
-			<tr>
-				<th><button id="uncertainButton">Uncertain</button></th>
-				<th><button id="neutralButton">Neutral</button></th>
-				<th><button id="sleepyButton">Sleepy</button></th>
-			</tr>   
-		</table>	
-		<label id="intensityLabel">Intensity:</label>
-		<input id="intensity" type="range" name="points" min="0" max="100">
-	<br><br> 
-	
-	<form>
-<input type="checkbox" id="controlCheckbox" value="yes" unchecked> Control robot
-</form>
-		<table>
-			<tr>
-			  <th></th>
-				<th><button id="forward" title="You can press key 'w' instead"> &#8593</button></th>
-			</tr>    
-			<tr>
-				<th><button id="left" title="You can press key 'a' instead"> &#8592 </button></th>
-				<th><button id="reverse" title="You can press key 's' instead">&#8595</button></th>
-				<th><button id="right" title="You can press key 'd' instead">&#8594</button></th>
-			</tr>   
-		</table>	
-	  </div>
-  </div> 
-  
-    <!--<input  id="dataChannelSend" name="dataChannelSend" disabled> -->
+        <table class="emotions">
+          <tr>
+            <th>
+              <button id="happyButton">Happy</button>
+            </th>
+            <th>
+              <button id="sadButton">Sad</button>
+            </th>
+            <th>
+              <button id="angryButton">Angry</button>
+            </th>
+          </tr>
+          <tr>
+            <th>
+              <button id="uncertainButton">Uncertain</button>
+            </th>
+            <th>
+              <button id="neutralButton">Neutral</button>
+            </th>
+            <th>
+              <button id="sleepyButton">Sleepy</button>
+            </th>
+          </tr>
+        </table>
+        <label for="intensity" id="intensityLabel">
+          Intensity:
+          <input id="intensity" type="range" name="points" min="0" max="100">
+        </label>
+        <br>
+        <br>
+
+        <form>
+          <label for="controlCheckbox">
+            <input type="checkbox" id="controlCheckbox" value="yes" unchecked>
+            Control robot
+          </label>
+        </form>
+
+        <table>
+          <tr>
+            <th></th>
+            <th>
+              <button id="forward" title="You can press key 'w' instead">&#8593;</button>
+            </th>
+          </tr>
+          <tr>
+            <th>
+              <button id="left" title="You can press key 'a' instead">&#8592;</button>
+            </th>
+            <th>
+              <button id="reverse" title="You can press key 's' instead">&#8595;</button>
+            </th>
+            <th>
+              <button id="right" title="You can press key 'd' instead">&#8594;</button>
+            </th>
+          </tr>
+        </table>
+      </div>
+    </div>
     <button class='hidden' id="sendButton" disabled>Send</button>
-	<input id="keyControl" hola name="keyControl">
-	
-<!--	
-	<div class='EFECTOS'>
-
-		<table>
-			<tr>
-				<th><button id="carButton">Sirena</button></th>
-				<th><button id="beatButton">Beat</button></th>
-			</tr>    
-			<tr>
-				<th><button id="loveButton">All you need is love</button></th>
-				<th><button id="beatButton">Beat</button></th>
-			</tr>   
- 
-		</table>	
-	</div>
--->
-
-<!--
-<video width="400" controls>
-  <source id="vid1" src="love.mp4" type="video/mp4">
-  Your browser does not support HTML5 video.
-</video>
--->
-	
-			
-<!--
-  <div id='videoRobot'>
-            <video class='centerVideo' id='remoteVideoFrontal' autoplay></video>
-			<video id='localVideo' autoplay></video>
-			<input id="keyControl" hola name="keyControl">
-
-      <table>
-         <tr>
-            <th>Remote video (robot)</th>
-            <th>Robot videoOmni</th>
-            <th>local video</th>
-        </tr>    class='center'
- 
-      </table>
-
-    </div>
--->
-
-<!--
-    <div class='hidden' id="controlRobot">
-	  
-      <table>
-        <tr>
-            <td></td>
-            <td><button id="forward">adelante</button></td>
-            <td></td>
-			<td><button id="CabezaArriba">Arriba</button></td>
-        </tr>
-        <tr>
-            <td><button id="left">izquierda</button></td>
-            <td><button id="stop">stop</button></td>
-            <td><button id="right">derecha</button></td>
-			<td><button id="CabezaNormal">Normal</button></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><button id="reverse">atras</button></td>
-            <td></td>
-			<td><button id="CabezaAbajo">Abajo</button></td>
-        </tr>
-        
-      </table>
-      
-       <input type="text" name="speech-msg" id="speech-msg" x-webkit-speech> 
-       <textarea id="dataChannelSend" disabled x-webkit-speech></textarea> 
-    </div>
--->
-
-
-<!--	<div class='centerTts' id="Tts">-->
-<!--       <input name="dataChannelSend" id="dataChannelSend" disabled x-webkit-speech> -->
-<!--      <input  id="dataChannelSend" name="dataChannelSend" disabled>
-      <button id="sendButton" disabled>Send</button>
-      <button id="carButton">Sirena</button>
-      <button id="beatButton">Beat</button>
-  </div>
-  -->
-
-
-
-
-
-  <!--       <div id="buttons">
-          <button id="startButton">Start</button>
-          <button id="sendButton" disabled>Send</button>
-          <button id="closeButton" disabled>Stop</button>
-        </div> -->
- <!--     
-    <div class="hidden" id="extra">
-        <h2>Adicionales</h2>
-        <button id="ledOn">Led On!</button>
-        <button id="ledOff">Led Off!</button>
-        <button id="ledBlink">Led blink!</button>
-        <button id="socialMotionTrue">SocialMotionTrue!</button>
-        <button id="socialMotionFalse">SocialMotionFalse!</button>
-        <textarea id="dataChannelReceive" disabled></textarea>
-    </div>
--->
-
-<!--   <audio id="audio" autoplay controls></audio><br><br>
-  <button id="start" onclick="start()">Start</button>
-  <button id="stop" onclick="stop()">Stop</button><br><br>
-  Add local audio to output:<input id="mix" type="checkbox" onclick="doMix(this);"><br><br>
-  <pre id="display"></pre>
- -->
-    
+    <input id="keyControl" hola name="keyControl">
   </div>
 
   <script src='node_modules\socket.io\node_modules\socket.io-client\dist/socket.io.js'></script>
@@ -204,4 +109,5 @@
   <script src='js/mainOperator.js'></script>
   <script src="js/roboticon.js"></script>
 </body>
+
 </html>
