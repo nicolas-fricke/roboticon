@@ -27,10 +27,10 @@ var RobotIcon = (function () {
   function animateEyeballsDirection(positions, duration) {
     positions = mergeIntoLeftRight(positions);
     if (duration == undefined) duration = 100;
-    // The eyes can move within a circle of 18
 
     Object.keys(positions).forEach(function(side) {
       var intensity = ensureWithinRange(positions[side].intensity);
+      // The eyes can move within a circle of 18
       var x = Math.sin(positions[side].direction * Math.PI / 180) * 18 * intensity;
       var y = Math.cos(positions[side].direction * Math.PI / 180) * 18 * intensity;
 
@@ -112,7 +112,6 @@ var RobotIcon = (function () {
 
     var normalClosedness = {};
     ['left', 'right'].forEach(function(side) {
-      // face.eyelids[side].obj.inAnim()
       normalClosedness[side] = face.eyelids[side].val.height;
     });
     animateEyelids({left: 1, right: 1}, closingDuration, true);
