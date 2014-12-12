@@ -129,9 +129,9 @@ var RobotIcon = (function () {
     setTimeout(blinkEyesInIntervals, newBlinkingInterval / 2);
   }
 
-  function parseAndApplyJson(json) {
+  function parseAndApplyJson(json, duration) {
     var input = JSON.parse(json);
-    var duration = 100;
+    duration = duration || 100;
 
     if (input.eyebrows) {
       var newShapes, transform, newColor;
