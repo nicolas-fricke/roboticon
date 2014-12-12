@@ -30,13 +30,14 @@ var fullscreenControl = (function () {
   function setFullscreenNone() {
     prepareNormal();
     $('#remote-video-container').append($('#remoteVideo'));
-
+    $('#remoteVideo').get(0).play();
     $('#container').show();
     fullscreen = 'nothing';
   }
   function setVideoFullscreen() {
     prepareFullscreen();
     $('#container-fullscreen-video').append($('#remoteVideo')).show();
+    $('#remoteVideo').get(0).play();
     $('#remoteVideo').width($(window).width());
     $('#remoteVideo').height($(window).height());
     fullscreen = 'video';

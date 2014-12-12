@@ -33,7 +33,7 @@ var angryButton = document.querySelector('button#angryButton');
 var uncertainButton = document.querySelector('button#uncertainButton');
 var neutralButton = document.querySelector('button#neutralButton');
 var sleepyButton = document.querySelector('button#sleepyButton');
-var intensity = document.querySelector('input#intensity');
+var intensitySlider = document.querySelector('input#intensity');
 var intensityLabel = document.querySelector('label#intensityLabel');
 
 var localVideoPanel = document.querySelector('div#localVideoPanel');
@@ -64,6 +64,7 @@ var remoteVideoOmni = document.querySelector('#remoteVideoOmni');
 var audioTracks;
 var webAudio;
 var filteredStream;
+var intensity;
 
 ////////////////////////////////////////////////////
 //BOTONES CONTROL MOTORES
@@ -84,8 +85,8 @@ uncertainButton.onclick = sendUncertain;
 neutralButton.onclick = sendNeutral;
 sleepyButton.onclick = sendSleepy;
 modeSelector.onchange = changeMode;
+intensitySlider.onchange = updateIntensity;
 
-$(document).ready = initialize;
 $(document).keydown(handleKeyControl);
 dataChannelSend.onkeypress = handleSendKeyPress;
 keyControl.onkeypress = handleKeyControl;
@@ -1031,8 +1032,8 @@ function playSoundBeat() {
 		sleepyButton.disabled = true;
 		sleepyButton.style.background = "#E3E3E3";
 		sleepyButton.style.borderBottom = "#E3E3E3";
-		intensity.disabled = true;
-		intensity.style.background = "#E3E3E3";
+		intensitySlider.disabled = true;
+		intensitySlider.style.background = "#E3E3E3";
 		intensityLabel.style.color = "#E3E3E3";
 		localVideo.style.display = 'block';
 		robotFrame.style.display = 'none';
@@ -1057,8 +1058,8 @@ function playSoundBeat() {
 		sleepyButton.disabled = false;
 		sleepyButton.style.background = "#1E90FF";
 		sleepyButton.style.borderBottom = "#7d7d7d";
-		intensity.disabled = false;
-		intensity.style.background = "#1E90FF";
+		intensitySlider.disabled = false;
+		intensitySlider.style.background = "#1E90FF";
 		intensityLabel.style.color = "black";
 		localVideo.style.display = 'none';
 		robotFrame.style.display = 'block';
@@ -1083,8 +1084,8 @@ function playSoundBeat() {
 		sleepyButton.disabled = true;
 		sleepyButton.style.background = "#E3E3E3";
 		sleepyButton.style.borderBottom = "#E3E3E3";
-		intensity.disabled = true;
-		intensity.style.background = "#E3E3E3";
+		intensitySlider.disabled = true;
+		intensitySlider.style.background = "#E3E3E3";
 		intensityLabel.style.color = "#E3E3E3";
 		localVideo.style.display = 'none';
 		robotFrame.style.display = 'block';
@@ -1136,14 +1137,14 @@ function playSoundBeat() {
 
  }
  
- function initialize()
+ function updateIntensity()
  {
- 		
+ 		intensity = intensitySlider.value/intensity;
+ 		console.log('Intensity: ' + intensity);
  }
 
 
-
-function sendHappy(){
+function sendHappy(intensity){
   setEmotionValues({
     eyebrowsShape: "angular", 
     eyebrowsRotation: 60, 
@@ -1151,23 +1152,23 @@ function sendHappy(){
   });
 }
 
-function sendSad(){
+function sendSad(intensity){
   setEmotionValues({}); 
 }
 
-function sendAngry(){
+function sendAngry(intensity){
   setEmotionValues({});
 }
 
-function sendUncertain(){
+function sendUncertain(intensity){
   setEmotionValues({}); 
 }
 
-function sendNeutral(){
+function sendNeutral(intensity){
   setEmotionValues({});
 }
 
-function sendSleepy(){
+function sendSleepy(intensity){
   setEmotionValues({});
 }
 
