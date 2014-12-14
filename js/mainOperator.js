@@ -1212,6 +1212,7 @@ function setEmotionValues(emotionValues) {
 
 function changeEmotion(jsonChanges) {
   var s = JSON.stringify(jsonChanges);
+  RobotIcon.parseAndApplyJson(s)
   var data = 'ROBICO:'+s;
   sendChannel.send(data);
   trace(user + ' envia dato: ' + data);
