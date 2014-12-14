@@ -953,7 +953,7 @@ function playSoundBeat() {
     return window.peer.stream;
   }
 
- 
+
 
  function changeMode()
  {
@@ -1092,6 +1092,10 @@ function playSoundBeat() {
  		intensity = intensitySlider.value/100;
  		console.log('Intensity: ' + intensity);
  }
+
+ $(document).ready(function(){
+   updateIntensity();
+ });
 
 
 function sendHappy(){
@@ -1232,4 +1236,3 @@ function sendChangeMode(mode) {
   sendChannel.send(data);
   trace(user + ' envia dato: ' + data);
 }
-
