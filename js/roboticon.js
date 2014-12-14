@@ -4,6 +4,7 @@ var RobotIcon = (function () {
   var templates;
   var blinkingInterval = 4000;
   var blinkingTimeout;
+  var blinkingReopenTimeout;
 
   function ensureWithinRange(variable, min, max) {
     // default values
@@ -106,7 +107,8 @@ var RobotIcon = (function () {
     })
   }
 
-  function animateEyelids(heights, duration, dontSetValues) {
+  function animateEyelids(heights, duration, isBlinking) {
+    if (! isBlinking) clearBlinkingTimeouts();
     heights = mergeIntoLeftRight(heights);
     if (duration == undefined) duration = 100;
 
@@ -116,8 +118,10 @@ var RobotIcon = (function () {
       face.eyelids[side].obj.animate({
         transform: translation
       }, duration, mina.easeout);
-      if (! dontSetValues) face.eyelids[side].val.height = heights[side];
+      if (! isBlinking) face.eyelids[side].val.height = heights[side];
     })
+
+    if (! isBlinking) updateBlinkingInterval();
   }
 
   function animateMouth(emotion, duration) {
@@ -128,28 +132,40 @@ var RobotIcon = (function () {
     face.mouth.val.emotion = emotion;
   }
 
+  function clearBlinkingTimeouts() {
+    console.log('cleared');
+    clearTimeout(blinkingTimeout);
+  }
+
   function blinkEyes() {
     var closingDuration = 50;
     var closedDuration = 100;
     var openingDuration = 80;
 
-    var normalClosedness = {};
-    ['left', 'right'].forEach(function(side) {
-      normalClosedness[side] = face.eyelids[side].val.height;
-    });
     animateEyelids({left: 1, right: 1}, closingDuration, true);
-    setTimeout(function(){animateEyelids(normalClosedness, openingDuration, true)}, closingDuration + closedDuration);
+    setTimeout(function(){
+        var normalClosedness = {
+          left: face.eyelids.left.val.height,
+          right: face.eyelids.right.val.height
+        }
+        animateEyelids(normalClosedness, openingDuration, true);
+      }, closingDuration + closedDuration);
   }
 
   function blinkEyesInIntervals() {
     blinkEyes();
-    blinkingTimeout = setTimeout(blinkEyesInIntervals, blinkingInterval);
+    updateBlinkingInterval()
   }
 
   function updateBlinkingInterval(newBlinkingInterval) {
-    clearTimeout(blinkingTimeout);
-    blinkingInterval = newBlinkingInterval;
-    setTimeout(blinkEyesInIntervals, newBlinkingInterval / 2);
+    if (newBlinkingInterval)
+      blinkingInterval = newBlinkingInterval;
+    clearBlinkingTimeouts();
+    blinkingTimeout = setTimeout(
+        blinkEyesInIntervals,
+        newBlinkingInterval ? blinkingInterval / 2 : blinkingInterval
+      );
+    console.log('set');
   }
 
   function parseAndApplyJson(json, duration) {
