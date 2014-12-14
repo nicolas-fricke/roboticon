@@ -89,7 +89,7 @@ intensitySlider.onchange = updateIntensity;
 
 $(document).keydown(handleKeyControl);
 dataChannelSend.onkeypress = handleSendKeyPress;
-keyControl.onkeypress = handleKeyControl;
+//keyControl.onkeypress = handleKeyControl;
 
 ////////////////////////////////////////////////////
 //BOTONES CONTROL CABEZA
@@ -1089,16 +1089,17 @@ function playSoundBeat() {
 
  function updateIntensity()
  {
- 		intensity = intensitySlider.value/intensity;
+ 		intensity = intensitySlider.value/100;
  		console.log('Intensity: ' + intensity);
  }
 
 
-function sendHappy(intensity){
+function sendHappy(){
+ var eR = 12 - intensity*12;
   setEmotionValues({
     eyebrowsShape: "round",
- eyebrowsRotation: 4,
- eyebrowsHeight: 0.5,
+ eyebrowsRotation: eR,
+ eyebrowsHeight: intensity,
  eyelidsHeight: 0,
  eyeballsDirection: 0,
  eyeballsIntensity: 0,
@@ -1106,11 +1107,13 @@ function sendHappy(intensity){
   });
 }
 
-function sendSad(intensity){
+function sendSad(){
+var eR = -9 - intensity*21;
+ var eH = 0.4 + 0.2*intensity;
   setEmotionValues({
   eyebrowsShape: "angular",
- eyebrowsRotation: -17,
- eyebrowsHeight: 0.45,
+ eyebrowsRotation: eR,
+ eyebrowsHeight: eH,
  eyelidsHeight: 0.55,
  eyeballsDirection: 0,
  eyeballsIntensity: 0.35,
@@ -1118,11 +1121,13 @@ function sendSad(intensity){
   });
 }
 
-function sendAngry(intensity){
+function sendAngry(){
+ var eR = 5 + intensity*35;
+ var eH = 0.6 - 0.6*intensity;
   setEmotionValues({
   eyebrowsShape: "angular",
- eyebrowsRotation: 22,
- eyebrowsHeight: 0.15,
+ eyebrowsRotation: eR,
+ eyebrowsHeight: eH,
  eyelidsHeight: 0.15,
  eyeballsDirection: 0,
  eyeballsIntensity: 0,
@@ -1130,10 +1135,11 @@ function sendAngry(intensity){
   });
 }
 
-function sendUncertain(intensity){
+function sendUncertain(){
+  var eR = -2 - intensity*28;
   setEmotionValues({
     eyebrowsShape: "angular",
- eyebrowsRotation: -8,
+ eyebrowsRotation: eR,
  eyebrowsHeight: 0.5,
  eyelidsHeight: 0,
  eyeballsDirection: 119,
@@ -1142,7 +1148,7 @@ function sendUncertain(intensity){
   });
 }
 
-function sendNeutral(intensity){
+function sendNeutral(){
   setEmotionValues({
   eyebrowsShape: "angular",
  eyebrowsRotation: 0,
@@ -1154,12 +1160,14 @@ function sendNeutral(intensity){
   });
 }
 
-function sendSleepy(intensity){
+function sendSleepy(){
+	var eH = -intensity*0.5;
+ var elH = 0.25 + 0.75*intensity;
   setEmotionValues({
   eyebrowsShape: "round",
  eyebrowsRotation: -9,
- eyebrowsHeight: 0.45,
- eyelidsHeight: 0.6,
+ eyebrowsHeight: eH,
+ eyelidsHeight: elH,
  eyeballsDirection: 0,
  eyeballsIntensity: 0.3,
  mouthEmotion: "neutral"
