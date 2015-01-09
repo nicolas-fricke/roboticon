@@ -36,6 +36,8 @@ var sleepyButton = document.querySelector('button#sleepyButton');
 var intensitySlider = document.querySelector('input#intensity');
 var intensityLabel = document.querySelector('label#intensityLabel');
 
+var selectRoboticonMode = document.querySelector('select#roboticonModeSelect');
+
 var localVideoPanel = document.querySelector('div#localVideoPanel');
 var localVideo = document.querySelector('video#localVideo');
 var robotIcon = document.querySelector('object#robotIcon');
@@ -84,6 +86,7 @@ angryButton.onclick = sendAngry;
 uncertainButton.onclick = sendUncertain;
 neutralButton.onclick = sendNeutral;
 sleepyButton.onclick = sendSleepy;
+selectRoboticonMode.onchange = changeRoboticonDisplayMode;
 modeSelector.onchange = changeMode;
 intensitySlider.onchange = updateIntensity;
 
@@ -982,6 +985,7 @@ function playSoundBeat() {
   		intensitySlider.disabled = true;
   		intensitySlider.style.background = "#E3E3E3";
   		intensityLabel.style.color = "#E3E3E3";
+      $(selectRoboticonMode).hide();
   		localVideo.style.display = 'block';
       robotIcon.style.display = 'none';
       sendChangeMode(1);
@@ -1009,6 +1013,7 @@ function playSoundBeat() {
   		intensitySlider.disabled = false;
   		intensitySlider.style.background = "#1E90FF";
   		intensityLabel.style.color = "black";
+      $(selectRoboticonMode).show();
   		localVideo.style.display = 'none';
   		robotIcon.style.display = 'block';
       sendChangeMode(0);
@@ -1227,6 +1232,12 @@ function changeEmotion(jsonChanges) {
   var data = 'ROBICO:'+s;
   sendChannel.send(data);
   trace(user + ' envia dato: ' + data);
+}
+
+function changeRoboticonDisplayMode() {
+  var mode = selectRoboticonMode.value;
+  RobotIcon.changeDisplayMode(mode);
+  sendChannel.send('ICOMOD:' + mode);
 }
 
 function sendChangeMode(mode) {

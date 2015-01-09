@@ -93,7 +93,7 @@ if (room === '') {
   room = 'robotRoom'; //prompt('Enter room name:');
 } else {
     //
-   
+
 }
 */
 
@@ -130,7 +130,7 @@ socket.on('created', function (room){
   ////////////////////////////////////////////////
   // getUserMedia para camara frontal
   ////////////////////////////////////////////////
-  
+
   //buscar id de camara frontal 'Logitech QuickCam Pro 5000 (046d:08c5)'
 /*
       media_sources.forEach(function (media_source) {
@@ -182,7 +182,7 @@ socket.on('created', function (room){
 
     if (isInitiator){
       maybeStart();
-    } 
+    }
 });
 
 
@@ -241,7 +241,7 @@ socket.on('message', function (message){
       sdpMLineIndex: message.label,
       candidate: message.candidate
     });
-    console.log(user + ' AÑADE ICE CANDIDATE: ' + message.candidate);    
+    console.log(user + ' AÑADE ICE CANDIDATE: ' + message.candidate);
     pc.addIceCandidate(candidate);
   } else if (message === 'bye' && isStarted) {
     handleRemoteHangup();
@@ -612,14 +612,18 @@ function onReceiveMessageCallback(event) {
     speak(dataChannelReceive.value.substr(7,dataChannelReceive.value.length));
   }
   else if (dataChannelReceive.value.substr(0, 7) === 'ROBICO:'){
-    console.log(user + ' ROBICO ' + dataChannelReceive.value.substr(7,dataChannelReceive.value.length))    
+    console.log(user + ' ROBICO ' + dataChannelReceive.value.substr(7,dataChannelReceive.value.length))
     change_emotion(dataChannelReceive.value.substr(7,dataChannelReceive.value.length));
   }
+  else if (dataChannelReceive.value.substr(0, 7) === 'ICOMOD:'){
+    console.log(user + ' ICOMOD ' + dataChannelReceive.value.substr(7,dataChannelReceive.value.length))
+    change_roboticon_mode(dataChannelReceive.value.substr(7,dataChannelReceive.value.length));
+  }
   else if (dataChannelReceive.value.substr(0, 7) === 'MODECH:'){
-    console.log(user + ' MODECH ' + dataChannelReceive.value.substr(7,dataChannelReceive.value.length))    
+    console.log(user + ' MODECH ' + dataChannelReceive.value.substr(7,dataChannelReceive.value.length))
     change_mode(dataChannelReceive.value.substr(7,dataChannelReceive.value.length));
   }
-  
+
 }
 
 
@@ -637,7 +641,7 @@ function onSendChannelStateChange() {
     closeButton.disabled = true;
   }
 */}
-  
+
 
 function onReceiveChannelStateChange() {
   var readyState = receiveChannel.readyState;
@@ -653,7 +657,7 @@ function handleSendKeyPress(event) {
   if (key==13){
     console.log('entro a key13..');
     sendData();
-   
+
   }
 }
 
@@ -707,6 +711,10 @@ function change_emotion(jsonStr) {
   console.log('change_emotion function was called');
   console.log(jsonStr);
   RobotIcon.parseAndApplyJson(jsonStr);
+ }
+
+ function change_roboticon_mode(mode) {
+    RobotIcon.changeDisplayMode(mode);
  }
 
 function change_mode(mode) {
