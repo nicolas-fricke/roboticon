@@ -48,6 +48,10 @@ var RobotIcon = (function () {
     })
   }
 
+  function animateEyeballsColor(color, duration) {
+    console.warn('Color changing for eyeballs is not yet implemented.');
+  }
+
   function animateEyebrowsShape(new_shapes, duration) {
     var new_shapes = mergeIntoLeftRight(new_shapes);
     if (duration == undefined) duration = 100;
@@ -107,6 +111,10 @@ var RobotIcon = (function () {
     })
   }
 
+  function animateEyebrowsColor(color, duration) {
+    console.warn('Color changing for eyebrows is not yet implemented.');
+  }
+
   function animateEyelids(heights, duration, isBlinking) {
     if (! isBlinking) clearBlinkingTimeouts();
     heights = mergeIntoLeftRight(heights);
@@ -130,6 +138,14 @@ var RobotIcon = (function () {
       d: templates.mouth[emotion].attr('d')
     }, duration, mina.easeinout);
     face.mouth.val.emotion = emotion;
+  }
+
+  function animateHairColor(color, duration) {
+    console.warn('Color changing for hair is not yet implemented.');
+  }
+
+  function animateSkinColor(color, duration) {
+    console.warn('Color changing for skin is not yet implemented.');
   }
 
   function clearBlinkingTimeouts() {
@@ -177,7 +193,7 @@ var RobotIcon = (function () {
       if (transform = input.eyebrows.transform)
         animateEyebrowsTransform(transform, duration);
       if (newColor = input.eyebrows.color)
-        console.warn('Color changing for eyebrows is not yet implemented.');
+        animateEyebrowsColor(newColor, duration);
     }
 
     if (input.eyelids) {
@@ -193,7 +209,7 @@ var RobotIcon = (function () {
       if (newPositions = input.eyeballs.positions)
         animateEyeballsDirection(newPositions, duration);
       if (newColors = input.eyeballs.colors)
-        console.warn('Color changing for eyeballs is not yet implemented.');
+        animateEyeballsColor(newColors, duration);
     }
 
     if (input.mouth) {
@@ -203,15 +219,15 @@ var RobotIcon = (function () {
     }
 
     if (input.hair) {
-      var new_color;
-      if (new_color = input.hair.color)
-        console.warn('Color changing for hair is not yet implemented.');
+      var newColor;
+      if (newColor = input.hair.color)
+        animateHairColor(newColor, duration);
     }
 
     if (input.skin) {
-      var new_color;
-      if (new_color = input.skin.color)
-        console.warn('Color changing for skin is not yet implemented.');
+      var newColor;
+      if (newColor = input.skin.color)
+        animateSkinColor(newColor, duration);
     }
   }
 
