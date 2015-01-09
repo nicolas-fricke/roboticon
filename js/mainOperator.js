@@ -39,6 +39,7 @@ var intensityLabel = document.querySelector('label#intensityLabel');
 var localVideoPanel = document.querySelector('div#localVideoPanel');
 var localVideo = document.querySelector('video#localVideo');
 var robotIcon = document.querySelector('object#robotIcon');
+var menuMessage = document.querySelector('p#menuMessage');
 
 //var CabezaArribaButton = document.querySelector('button#CabezaArriba');
 //var CabezaNormalButton = document.querySelector('button#CabezaNormal');
@@ -223,7 +224,8 @@ socket.on('joined', function (room){
 
     getUserMedia(constraints, handleUserMedia, handleUserMediaError);
     //console.log(user + ' getUserMedia con constraints', constraints);
-
+    
+    
 });
 
 socket.on('full', function (room){
@@ -808,6 +810,7 @@ function CabezaAbajo() {
 window.addEventListener('load', init, false);
 
 function init() {
+	
   try {
     // Fix up for prefixing
     window.AudioContext = window.AudioContext||window.webkitAudioContext;
@@ -821,8 +824,6 @@ function init() {
   catch(e) {
     alert('Web Audio API is not supported in this browser');
   }
-  changeMode();
-  toggleControl();
 }
 
 
@@ -984,6 +985,7 @@ function playSoundBeat() {
   		intensityLabel.style.color = "#E3E3E3";
   		localVideo.style.display = 'block';
       robotIcon.style.display = 'none';
+      menuMessage.style.display = 'none';
       sendChangeMode(1);
 		}
 		else if(modeSelector.selectedIndex == 0)
@@ -1011,6 +1013,7 @@ function playSoundBeat() {
   		intensityLabel.style.color = "black";
   		localVideo.style.display = 'none';
   		robotIcon.style.display = 'block';
+  		menuMessage.style.display = 'none';
       sendChangeMode(0);
 		}
 		else
@@ -1037,7 +1040,8 @@ function playSoundBeat() {
   		intensitySlider.style.background = "#E3E3E3";
   		intensityLabel.style.color = "#E3E3E3";
   		localVideo.style.display = 'none';
-  		robotIcon.style.display = 'block';
+  		robotIcon.style.display = 'none';
+  		menuMessage.style.display = 'block';
       sendChangeMode(2);
 		}
 

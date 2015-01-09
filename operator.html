@@ -26,10 +26,11 @@
 
     <div id='control'>
       <div id='localVideoPanel'>
-        <object id="robotIcon" class="roboticon svgContainer" data="assets/images/face_calvin.svg" type="image/svg+xml">
+        <object id="robotIcon" class="roboticon svgContainer" data="assets/images/face_calvin.svg" type="image/svg+xml" hidden>
           <p class="fallback-message">Sorry, something went wrong – does your browser support SVG? Try using Google Chrome.</p>
         </object>
         <video id='localVideo' autoplay hidden></video>
+        <p id="menuMessage" hidden>Please select options on the robot display</p>
       </div>
       <div id='controlPanel'>
 
@@ -37,37 +38,37 @@
           <select id="modeSelector">
             <option value="Emotions">Emotions</option>
             <option value="Operator">Operator</option>
-            <option value="Menu">Menu</option>
+            <option value="Menu" selected>Menu</option>
           </select>
         </form>
 
         <table class="emotions">
           <tr>
             <th>
-              <button id="happyButton">Happy</button>
+              <button id="happyButton" disabled>Happy</button>
             </th>
             <th>
-              <button id="sadButton">Sad</button>
+              <button id="sadButton" disabled>Sad</button>
             </th>
             <th>
-              <button id="angryButton">Angry</button>
+              <button id="angryButton" disabled>Angry</button>
             </th>
           </tr>
           <tr>
             <th>
-              <button id="uncertainButton">Uncertain</button>
+              <button id="uncertainButton" disabled>Uncertain</button>
             </th>
             <th>
-              <button id="neutralButton">Neutral</button>
+              <button id="neutralButton" disabled>Neutral</button>
             </th>
             <th>
-              <button id="sleepyButton">Sleepy</button>
+              <button id="sleepyButton" disabled>Sleepy</button>
             </th>
           </tr>
         </table>
         <label for="intensity" id="intensityLabel">
           Intensity:
-          <input id="intensity" type="range" name="points" min="0" max="100">
+          <input id="intensity" type="range" name="points" min="0" max="100" disabled>
         </label>
         <br>
         <br>
