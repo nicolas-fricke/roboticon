@@ -896,8 +896,6 @@ function playSoundBeat() {
  //changes operating mode (Emotions, Operator, Menu)
  function changeMode()
  {
-    console.log('changeMode was called');
-    console.log('selectedIndex is'+modeSelector.selectedIndex);
 		if(modeSelector.selectedIndex == 1)
 		{
   		happyButton.disabled = true;
@@ -1033,7 +1031,6 @@ function playSoundBeat() {
  function updateIntensity()
  {
  		intensity = intensitySlider.value/100;
- 		console.log('Intensity: ' + intensity);
  }
 
  $(document).ready(function(){
@@ -1185,7 +1182,6 @@ function changeRoboticonDisplayMode() {
 
 function sendChangeMode(mode) {
   var data = 'MODECH:'+mode;
-  console.log('sendChangeMode was called -- '+data);
   sendChannel.send(data);
   trace(user + ' envia dato: ' + data);
 }

@@ -689,7 +689,6 @@ function sendDataReverse() {
 }
 
 function change_emotion(jsonStr) {
-  console.log('change_emotion function was called');
   console.log(jsonStr);
   RobotIcon.parseAndApplyJson(jsonStr);
  }
@@ -699,8 +698,6 @@ function change_emotion(jsonStr) {
  }
 
 function change_mode(mode) {
-  console.log('change_mode function was called');
-  console.log('received'+mode);
   if (mode == 1) {
     fullscreenControl.setVideo();
   } else if (mode == 0) {
