@@ -92,18 +92,15 @@ body {
   width: 200px;
   margin-left: 25px;
 }
-
 #intensityLabel {
 	  color: #E3E3E3;
-	}
+}
 #buttons,
 button {
   display: inline-block;
   border-radius: 3px;
   border: none;
   font-size: 1rem;
-  /*background: #1E90FF;
-  border-bottom: 1px solid #7d7d7d;*/
   background: #E3E3E3;
   border-bottom: 1px solid #E3E3E3;
   color: white;
@@ -114,25 +111,6 @@ button {
   height: 50px;
   text-align: center;
 }
-
-/*
-#happyButton, #sadButton, #angryButton,
-#uncertainButton, #neutralButton, #sleepyButton{
-display: inline-block;
-  border-radius: 3px;
-  border: none;
-  font-size: 1rem;
-  background: #E3E3E3;
-  border-bottom: 1px solid #E3E3E3;
-  color: white;
-  -webkit-font-smoothing: antialiased;
-  font-weight: bold;
-  margin: 1px;
-  width: 90px;
-  height: 50px;
-  text-align: center;
-  }*/
-
 table.emotions {
   margin-bottom: 25px;
 }
@@ -146,7 +124,6 @@ h1 {
 #msg.not-supported strong {
   color: #CC0000;
 }
-
 input[type="range"] {
   width: 90px;
 }
@@ -166,7 +143,6 @@ button:active {
 #remoteVideo {
   height: 200px;
 }
-
 .hidden {
   display: none;
 }

@@ -185,7 +185,6 @@ socket.on('created', function (room){
     }
 });
 
-
 socket.on('join', function (room){
   // aqui entra el robot
   console.log('JOIN user ' + user);
@@ -214,7 +213,6 @@ socket.on('full', function (room){
 socket.on('log', function (array){
   console.log.apply(console, array);
 });
-
 
 socket.on('message', function (message){
   console.log(user + ' recibe mensaje de server:', message);
@@ -259,8 +257,6 @@ function sendMessage(message){
   socket.emit('message', message);
 }
 
-
-
 function handleUserMedia(stream) {
   console.log(user + ' handleUserMedia');
   localVideo.src = window.URL.createObjectURL(stream);
@@ -276,7 +272,6 @@ function handleUserMediaError(error){
   console.log('Error de getUserMedia: ', error);
 }
 
-
 function handleUserMediaFrontal(stream) {
   console.log(user + ' handleUserMediaFrontal');
   localVideo.src = window.URL.createObjectURL(stream);
@@ -290,7 +285,6 @@ function handleUserMediaFrontal(stream) {
 function handleUserMediaFrontalError(error){
   console.log('Error de getUserMediaFrontal: ', error);
 }
-
 
 function handleUserMediaOmni(stream) {
   console.log(user + ' handleUserMediaOmni');
@@ -306,8 +300,6 @@ function handleUserMediaOmniError(error){
   console.log('Error de getUserMedia omnidireccional: ', error);
 }
 
-
-
 function handleUserMediaDummy(stream) {
   console.log(user + ' handleUserMediaDummy');
   //localVideo.src = window.URL.createObjectURL(stream);
@@ -319,9 +311,6 @@ function handleUserMediaDummy(stream) {
 function handleUserMediaDummyError(error){
   console.log('Error de getUserMediaDummy: ', error);
 }
-
-
-
 
 //var constraints = {video: false };
 
@@ -399,8 +388,6 @@ function createDataChannel(){
     trace('Create Data channel failed with exception: ' + e.message);
   }
 }
-
-
 
 function handleIceCandidate(event) {
   console.log(user + ' handleIceCandidate: ', event);
@@ -626,7 +613,6 @@ function onReceiveMessageCallback(event) {
 
 }
 
-
 function onSendChannelStateChange() {
   var readyState = sendChannel.readyState;
   trace('onSendChannelStateChange Send channel state is: ' + readyState);
@@ -642,12 +628,10 @@ function onSendChannelStateChange() {
   }
 */}
 
-
 function onReceiveChannelStateChange() {
   var readyState = receiveChannel.readyState;
   trace('Receive channel state readyState is: ' + readyState);
 }
-
 
 //funciones para enviar datos al robot mediante el datachannel
 
@@ -661,8 +645,6 @@ function handleSendKeyPress(event) {
   }
 }
 
-
-
 function sendData() {
   var data = 'HABLAR:'+dataChannelSend.value;
   console.log ('entro a sendData');
@@ -670,7 +652,6 @@ function sendData() {
   trace(user + ' envia dato: ' + data);
   dataChannelSend.value = null;
 }
-
 
 function sendDataForward() {
   var data = 'ACTUAR:forward';
@@ -692,6 +673,7 @@ function sendDataStop() {
   sendChannel.send(data);
   trace(user + ' envia dato: ' + data);
 }
+
 function sendDataRight() {
   var data = 'ACTUAR:right';
   //dataChannelSend.value = data;
@@ -705,7 +687,6 @@ function sendDataReverse() {
   sendChannel.send(data);
   trace(user + ' envia dato: ' + data);
 }
-
 
 function change_emotion(jsonStr) {
   console.log('change_emotion function was called');

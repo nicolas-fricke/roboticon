@@ -1,5 +1,4 @@
 'use strict';
-//var loveStream;
 var context;
 var carBarkingBuffer = null;
 var loveBuffer = null;
@@ -36,30 +35,20 @@ var sleepyButton = document.querySelector('button#sleepyButton');
 var intensitySlider = document.querySelector('input#intensity');
 var intensityLabel = document.querySelector('label#intensityLabel');
 
-var selectRoboticonMode = document.querySelector('select#roboticonModeSelect');
 
 var localVideoPanel = document.querySelector('div#localVideoPanel');
 var localVideo = document.querySelector('video#localVideo');
 var robotIcon = document.querySelector('object#robotIcon');
 var menuMessage = document.querySelector('p#menuMessage');
-
-//var CabezaArribaButton = document.querySelector('button#CabezaArriba');
-//var CabezaNormalButton = document.querySelector('button#CabezaNormal');
-//var CabezaAbajoButton = document.querySelector('button#CabezaAbajo');
-
-
-
-//var carButton = document.querySelector('button#carButton');
-//var beatButton = document.querySelector('button#beatButton');
-//var loveButton = document.querySelector('button#loveButton');
 var controlCheckbox = document.querySelector('input#controlCheckbox');
 var modeSelector = document.querySelector('select#modeSelector');
+var selectRoboticonMode = document.querySelector('select#roboticonModeSelect');
+
 
 ////////////////////////////////////////////////////
 
 var localVideo = document.querySelector('#localVideo');
 var vid1 = document.querySelector('#vid1');
-//var remoteVideo = document.querySelector('#remoteVideo');
 var remoteVideoFrontal = document.querySelector('#remoteVideoFrontal');
 var remoteVideoOmni = document.querySelector('#remoteVideoOmni');
 
@@ -93,20 +82,6 @@ intensitySlider.onchange = updateIntensity;
 
 $(document).keydown(handleKeyControl);
 dataChannelSend.onkeypress = handleSendKeyPress;
-//keyControl.onkeypress = handleKeyControl;
-
-////////////////////////////////////////////////////
-//BOTONES CONTROL CABEZA
-////////////////////////////////////////////////////
-//CabezaArribaButton.onclick = CabezaArriba;
-//CabezaNormalButton.onclick = CabezaNormal;
-//CabezaAbajoButton.onclick = CabezaAbajo;
-
-
-/*closeButton.onclick = closeDataChannels;
-rtpSelect.onclick = enableStartButton;
-sctpSelect.onclick = enableStartButton;
-*/
 
 var user='dennys';
 var isChannelReady;
@@ -145,18 +120,6 @@ var pc_constraints = {'optional': [{'DtlsSrtpKeyAgreement': true}]};
 var sdpConstraints = {'mandatory': {
   'OfferToReceiveAudio':true,
   'OfferToReceiveVideo':true }};
-
-/////////////////////////////////////////////
-
-/*var room = location.pathname.substring(1);
-if (room === '') {
-  room = 'robotRoom'; //prompt('Enter room name:');
-} else {
-    //
-
-}
-*/
-
 
 ///////////////////////////////////
 // Tomo las fuentes de video que existen en la compu. Las necesito para añadir las camaras fuente (frente y omnidireccional) en el robot
@@ -284,8 +247,6 @@ function sendMessage(message){
   socket.emit('message', message);
 }
 
-
-
 function handleUserMedia(stream) {
   console.log(user + ' handleUserMedia');
   localVideo.src = window.URL.createObjectURL(stream);
@@ -316,8 +277,6 @@ function handleUserMediaError(error){
 }
 
 //var constraints = {video: false };
-
-
 //var constraints = { video: true };
 //getUserMedia(constraints, handleUserMedia, handleUserMediaError);
 //console.log('Getting user media with constraints', constraints);
@@ -389,8 +348,6 @@ function createDataChannel(){
     trace('Create Data channel failed with exception: ' + e.message);
   }
 }
-
-
 
 function handleIceCandidate(event) {
   console.log(user + ' handleIceCandidate: ', event);
@@ -618,7 +575,6 @@ function receiveChannelCallback(event) {
   receiveChannel.onclose = onReceiveChannelStateChange;
 }
 
-
 function onReceiveMessageCallback(event) {
   trace(user + ' recibe dato: ' + event.data);
   dataChannelReceive.value = event.data;
@@ -637,7 +593,6 @@ function onReceiveMessageCallback(event) {
 
 }
 
-
 function onSendChannelStateChange() {
   var readyState = sendChannel.readyState;
   trace('Send channel state is: ' + readyState);
@@ -653,12 +608,10 @@ function onSendChannelStateChange() {
   }
 }
 
-
 function onReceiveChannelStateChange() {
   var readyState = receiveChannel.readyState;
   trace('Receive channel state readyState is: ' + readyState);
 }
-
 
 //funciones para enviar datos al robot mediante el datachannel
 function handleSendKeyPress(event) {
@@ -736,7 +689,6 @@ function handleKeyControl(event) {
   }
 }
 
-
 function sendData() {
   var data = 'HABLAR:'+dataChannelSend.value;
   sendChannel.send(data);
@@ -764,6 +716,7 @@ function sendDataStop() {
   sendChannel.send(data);
   trace(user + ' envia dato: ' + data);
 }
+
 function sendDataRight() {
   var data = 'ACTUAR:right';
   //dataChannelSend.value = data;
@@ -777,28 +730,6 @@ function sendDataReverse() {
   sendChannel.send(data);
   trace(user + ' envia dato: ' + data);
 }
-
-
-function CabezaArriba() {
-  var data = 'ACTUAR:CABEZAARRIBA';
-  //dataChannelSend.value = data;
-  sendChannel.send(data);
-  trace(user + ' envia dato: ' + data);
-}
-
-function CabezaNormal() {
-  var data = 'ACTUAR:CABEZANORMAL';
-  //dataChannelSend.value = data;
-  sendChannel.send(data);
-  trace(user + ' envia dato: ' + data);
-}
-function CabezaAbajo() {
-  var data = 'ACTUAR:CABEZAABAJO';
-  //dataChannelSend.value = data;
-  sendChannel.send(data);
-  trace(user + ' envia dato: ' + data);
-}
-
 
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////
@@ -958,7 +889,11 @@ function playSoundBeat() {
   }
 
 
+////////////////////////////////////////////////////////
+//Callbacks for different mode selectors
+////////////////////////////////////////////////////////
 
+ //changes operating mode (Emotions, Operator, Menu)
  function changeMode()
  {
     console.log('changeMode was called');
@@ -1049,10 +984,9 @@ function playSoundBeat() {
   		menuMessage.style.display = 'block';
       sendChangeMode(2);
 		}
-
  }
 
-
+ // Switch between chat mode or control mode
  function toggleControl()
  {
 		if(!controlCheckbox.checked)
@@ -1095,6 +1029,7 @@ function playSoundBeat() {
 		}
  }
 
+ // updates intensity, which was set by the slider
  function updateIntensity()
  {
  		intensity = intensitySlider.value/100;
@@ -1105,7 +1040,10 @@ function playSoundBeat() {
    updateIntensity();
  });
 
-
+/////////////////////////////////////////////////////
+//Functions for different emotions
+/////////////////////////////////////////////////////
+ 
 function sendHappy(){
   var eR = 12 - intensity*12;
   setEmotionValues({
@@ -1230,6 +1168,7 @@ function setEmotionValues(emotionValues) {
   changeEmotion(jsonChanges);
 }
 
+// Send JSON string with emotion
 function changeEmotion(jsonChanges) {
   var s = JSON.stringify(jsonChanges);
   RobotIcon.parseAndApplyJson(s)
