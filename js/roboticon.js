@@ -291,6 +291,17 @@ var RobotIcon = (function () {
     })
   }
 
+  function changeDisplayMode(mode) {
+    switch (mode) {
+      case 'whole_face':
+        displayWholeFace();
+        break;
+      case 'eyes_only':
+        displayEyesOnly();
+        break;
+    }
+  }
+
   function getSnapObj() { return snap; }
 
   function getFace() {
@@ -323,6 +334,7 @@ var RobotIcon = (function () {
     animateMouth: animateMouth,
     displayWholeFace: displayWholeFace,
     displayEyesOnly: displayEyesOnly,
+    changeDisplayMode: changeDisplayMode,
     updateBlinkingInterval: updateBlinkingInterval,
     __getInternalFace__: getFace
   };
