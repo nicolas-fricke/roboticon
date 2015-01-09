@@ -48,6 +48,10 @@ var RobotIcon = (function () {
     })
   }
 
+  function animateEyeballsColor(color, duration) {
+    console.warn('Color changing for eyeballs is not yet implemented.');
+  }
+
   function animateEyebrowsShape(new_shapes, duration) {
     var new_shapes = mergeIntoLeftRight(new_shapes);
     if (duration == undefined) duration = 100;
@@ -107,6 +111,10 @@ var RobotIcon = (function () {
     })
   }
 
+  function animateEyebrowsColor(color, duration) {
+    console.warn('Color changing for eyebrows is not yet implemented.');
+  }
+
   function animateEyelids(heights, duration, isBlinking) {
     if (! isBlinking) clearBlinkingTimeouts();
     heights = mergeIntoLeftRight(heights);
@@ -132,8 +140,15 @@ var RobotIcon = (function () {
     face.mouth.val.emotion = emotion;
   }
 
+  function animateHairColor(color, duration) {
+    console.warn('Color changing for hair is not yet implemented.');
+  }
+
+  function animateSkinColor(color, duration) {
+    console.warn('Color changing for skin is not yet implemented.');
+  }
+
   function clearBlinkingTimeouts() {
-    console.log('cleared');
     clearTimeout(blinkingTimeout);
   }
 
@@ -165,7 +180,6 @@ var RobotIcon = (function () {
         blinkEyesInIntervals,
         newBlinkingInterval ? blinkingInterval / 2 : blinkingInterval
       );
-    console.log('set');
   }
 
   function parseAndApplyJson(json, duration) {
@@ -179,7 +193,7 @@ var RobotIcon = (function () {
       if (transform = input.eyebrows.transform)
         animateEyebrowsTransform(transform, duration);
       if (newColor = input.eyebrows.color)
-        console.warn('Color changing for eyebrows is not yet implemented.');
+        animateEyebrowsColor(newColor, duration);
     }
 
     if (input.eyelids) {
@@ -195,7 +209,7 @@ var RobotIcon = (function () {
       if (newPositions = input.eyeballs.positions)
         animateEyeballsDirection(newPositions, duration);
       if (newColors = input.eyeballs.colors)
-        console.warn('Color changing for eyeballs is not yet implemented.');
+        animateEyeballsColor(newColors, duration);
     }
 
     if (input.mouth) {
@@ -205,15 +219,15 @@ var RobotIcon = (function () {
     }
 
     if (input.hair) {
-      var new_color;
-      if (new_color = input.hair.color)
-        console.warn('Color changing for hair is not yet implemented.');
+      var newColor;
+      if (newColor = input.hair.color)
+        animateHairColor(newColor, duration);
     }
 
     if (input.skin) {
-      var new_color;
-      if (new_color = input.skin.color)
-        console.warn('Color changing for skin is not yet implemented.');
+      var newColor;
+      if (newColor = input.skin.color)
+        animateSkinColor(newColor, duration);
     }
   }
 
@@ -281,6 +295,31 @@ var RobotIcon = (function () {
     });
   }
 
+  function displayWholeFace() {
+    snap.attr({
+      viewBox: '0 0 291 336'
+    })
+  }
+
+  function displayEyesOnly() {
+    snap.attr({
+      viewBox: '73 110 146 168'
+    })
+  }
+
+  function changeDisplayMode(mode) {
+    switch (mode) {
+      case 'whole_face':
+        displayWholeFace();
+        break;
+      case 'eyes_only':
+        displayEyesOnly();
+        break;
+    }
+  }
+
+  function getSnapObj() { return snap; }
+
   function getFace() {
     return face;
   }
@@ -289,6 +328,11 @@ var RobotIcon = (function () {
     var faceContainer = $('.roboticon');
     faceContainer.height(faceContainer.parent().height());
     snap = Snap('.roboticon');
+    snap.attr({
+      height: faceContainer.parent().height(),
+      // Widescreen format: 16 x 9
+      width:  Math.floor(faceContainer.parent().height() / 9 * 16),
+    });
     setFaces();
     updateBlinkingInterval(blinkingInterval);
   }
@@ -304,6 +348,9 @@ var RobotIcon = (function () {
     // animateEyebrowsRotation: animateEyebrowsRotation,
     animateEyelids: animateEyelids,
     animateMouth: animateMouth,
+    displayWholeFace: displayWholeFace,
+    displayEyesOnly: displayEyesOnly,
+    changeDisplayMode: changeDisplayMode,
     updateBlinkingInterval: updateBlinkingInterval,
     __getInternalFace__: getFace
   };

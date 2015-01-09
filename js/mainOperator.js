@@ -36,6 +36,8 @@ var sleepyButton = document.querySelector('button#sleepyButton');
 var intensitySlider = document.querySelector('input#intensity');
 var intensityLabel = document.querySelector('label#intensityLabel');
 
+var selectRoboticonMode = document.querySelector('select#roboticonModeSelect');
+
 var localVideoPanel = document.querySelector('div#localVideoPanel');
 var localVideo = document.querySelector('video#localVideo');
 var robotIcon = document.querySelector('object#robotIcon');
@@ -85,6 +87,7 @@ angryButton.onclick = sendAngry;
 uncertainButton.onclick = sendUncertain;
 neutralButton.onclick = sendNeutral;
 sleepyButton.onclick = sendSleepy;
+selectRoboticonMode.onchange = changeRoboticonDisplayMode;
 modeSelector.onchange = changeMode;
 intensitySlider.onchange = updateIntensity;
 
@@ -983,6 +986,7 @@ function playSoundBeat() {
   		intensitySlider.disabled = true;
   		intensitySlider.style.background = "#E3E3E3";
   		intensityLabel.style.color = "#E3E3E3";
+      $(selectRoboticonMode).hide();
   		localVideo.style.display = 'block';
       robotIcon.style.display = 'none';
       menuMessage.style.display = 'none';
@@ -1011,6 +1015,7 @@ function playSoundBeat() {
   		intensitySlider.disabled = false;
   		intensitySlider.style.background = "#1E90FF";
   		intensityLabel.style.color = "black";
+      $(selectRoboticonMode).show().val('whole_face');
   		localVideo.style.display = 'none';
   		robotIcon.style.display = 'block';
   		menuMessage.style.display = 'none';
@@ -1052,43 +1057,42 @@ function playSoundBeat() {
  {
 		if(!controlCheckbox.checked)
 		{
-		forwardButton.disabled = true;
-		forwardButton.style.background =  "#E3E3E3";
-		forwardButton.style.borderBottom = "#E3E3E3";
-		reverseButton.disabled = true;
-		reverseButton.style.background =  "#E3E3E3";
-		reverseButton.style.borderBottom = "#E3E3E3";
-		leftButton.disabled = true;
-		leftButton.style.background =  "#E3E3E3";
-		leftButton.style.borderBottom = "#E3E3E3";
-		rightButton.disabled = true;
-		rightButton.style.background =  "#E3E3E3";
-		rightButton.style.borderBottom = "#E3E3E3";
-		dataChannelSend.disabled = false;
-		sendButton.disabled = false;
-		sendButton.style.background = "#1E90FF";
-		sendButton.style.borderBottom = "#7d7d7d";
+  		forwardButton.disabled = true;
+  		forwardButton.style.background =  "#E3E3E3";
+  		forwardButton.style.borderBottom = "#E3E3E3";
+  		reverseButton.disabled = true;
+  		reverseButton.style.background =  "#E3E3E3";
+  		reverseButton.style.borderBottom = "#E3E3E3";
+  		leftButton.disabled = true;
+  		leftButton.style.background =  "#E3E3E3";
+  		leftButton.style.borderBottom = "#E3E3E3";
+  		rightButton.disabled = true;
+  		rightButton.style.background =  "#E3E3E3";
+  		rightButton.style.borderBottom = "#E3E3E3";
+  		dataChannelSend.disabled = false;
+  		sendButton.disabled = false;
+  		sendButton.style.background = "#1E90FF";
+  		sendButton.style.borderBottom = "#7d7d7d";
 		}
 		else
 		{
-		forwardButton.disabled = false;
-		forwardButton.style.background = "#1E90FF";
-		forwardButton.style.borderBottom = "#7d7d7d";
-		reverseButton.disabled = false;
-		reverseButton.style.background = "#1E90FF";
-		reverseButton.style.borderBottom = "#7d7d7d";
-		leftButton.disabled = false;
-		leftButton.style.background = "#1E90FF";
-		leftButton.style.borderBottom = "#7d7d7d";
-		rightButton.disabled = false;
-		rightButton.style.background = "#1E90FF";
-		rightButton.style.borderBottom = "#7d7d7d";
-		dataChannelSend.disabled = true;
-		sendButton.disabled = true;
-		sendButton.style.background = "#E3E3E3";
-		sendButton.style.borderBottom = "#E3E3E3";
+  		forwardButton.disabled = false;
+  		forwardButton.style.background = "#1E90FF";
+  		forwardButton.style.borderBottom = "#7d7d7d";
+  		reverseButton.disabled = false;
+  		reverseButton.style.background = "#1E90FF";
+  		reverseButton.style.borderBottom = "#7d7d7d";
+  		leftButton.disabled = false;
+  		leftButton.style.background = "#1E90FF";
+  		leftButton.style.borderBottom = "#7d7d7d";
+  		rightButton.disabled = false;
+  		rightButton.style.background = "#1E90FF";
+  		rightButton.style.borderBottom = "#7d7d7d";
+  		dataChannelSend.disabled = true;
+  		sendButton.disabled = true;
+  		sendButton.style.background = "#E3E3E3";
+  		sendButton.style.borderBottom = "#E3E3E3";
 		}
-
  }
 
  function updateIntensity()
@@ -1103,43 +1107,43 @@ function playSoundBeat() {
 
 
 function sendHappy(){
- var eR = 12 - intensity*12;
+  var eR = 12 - intensity*12;
   setEmotionValues({
     eyebrowsShape: "round",
- eyebrowsRotation: eR,
- eyebrowsHeight: intensity,
- eyelidsHeight: 0,
- eyeballsDirection: 0,
- eyeballsIntensity: 0,
- mouthEmotion: "happy"
+    eyebrowsRotation: eR,
+    eyebrowsHeight: intensity,
+    eyelidsHeight: 0,
+    eyeballsDirection: 0,
+    eyeballsIntensity: 0,
+    mouthEmotion: "happy"
   });
 }
 
 function sendSad(){
-var eR = -9 - intensity*21;
- var eH = 0.4 + 0.2*intensity;
+  var eR = -9 - intensity*21;
+  var eH = 0.4 + 0.2*intensity;
   setEmotionValues({
-  eyebrowsShape: "angular",
- eyebrowsRotation: eR,
- eyebrowsHeight: eH,
- eyelidsHeight: 0.55,
- eyeballsDirection: 0,
- eyeballsIntensity: 0.35,
- mouthEmotion: "sad"
+    eyebrowsShape: "angular",
+    eyebrowsRotation: eR,
+    eyebrowsHeight: eH,
+    eyelidsHeight: 0.55,
+    eyeballsDirection: 0,
+    eyeballsIntensity: 0.35,
+    mouthEmotion: "sad"
   });
 }
 
 function sendAngry(){
- var eR = 5 + intensity*35;
- var eH = 0.6 - 0.6*intensity;
+  var eR = 5 + intensity*35;
+  var eH = 0.6 - 0.6*intensity;
   setEmotionValues({
-  eyebrowsShape: "angular",
- eyebrowsRotation: eR,
- eyebrowsHeight: eH,
- eyelidsHeight: 0.15,
- eyeballsDirection: 0,
- eyeballsIntensity: 0,
- mouthEmotion: "angry"
+    eyebrowsShape: "angular",
+    eyebrowsRotation: eR,
+    eyebrowsHeight: eH,
+    eyelidsHeight: 0.15,
+    eyeballsDirection: 0,
+    eyeballsIntensity: 0,
+    mouthEmotion: "angry"
   });
 }
 
@@ -1147,38 +1151,38 @@ function sendUncertain(){
   var eR = -2 - intensity*28;
   setEmotionValues({
     eyebrowsShape: "angular",
- eyebrowsRotation: eR,
- eyebrowsHeight: 0.5,
- eyelidsHeight: 0,
- eyeballsDirection: 119,
- eyeballsIntensity: 0,
- mouthEmotion: "uncertain"
+    eyebrowsRotation: eR,
+    eyebrowsHeight: 0.5,
+    eyelidsHeight: 0,
+    eyeballsDirection: 119,
+    eyeballsIntensity: 0,
+    mouthEmotion: "uncertain"
   });
 }
 
 function sendNeutral(){
   setEmotionValues({
-  eyebrowsShape: "angular",
- eyebrowsRotation: 0,
- eyebrowsHeight: 0.3,
- eyelidsHeight: 0.1,
- eyeballsDirection: 0.2,
- eyeballsIntensity: 0.4,
- mouthEmotion: "neutral"
+    eyebrowsShape: "angular",
+    eyebrowsRotation: 0,
+    eyebrowsHeight: 0.3,
+    eyelidsHeight: 0.1,
+    eyeballsDirection: 0.2,
+    eyeballsIntensity: 0.4,
+    mouthEmotion: "neutral"
   });
 }
 
 function sendSleepy(){
 	var eH = -intensity*0.5;
- var elH = 0.25 + 0.75*intensity;
+  var elH = 0.25 + 0.75*intensity;
   setEmotionValues({
-  eyebrowsShape: "round",
- eyebrowsRotation: -9,
- eyebrowsHeight: eH,
- eyelidsHeight: elH,
- eyeballsDirection: 0,
- eyeballsIntensity: 0.3,
- mouthEmotion: "neutral"
+    eyebrowsShape: "round",
+    eyebrowsRotation: -9,
+    eyebrowsHeight: eH,
+    eyelidsHeight: elH,
+    eyeballsDirection: 0,
+    eyeballsIntensity: 0.3,
+    mouthEmotion: "neutral"
   });
 }
 
@@ -1232,6 +1236,12 @@ function changeEmotion(jsonChanges) {
   var data = 'ROBICO:'+s;
   sendChannel.send(data);
   trace(user + ' envia dato: ' + data);
+}
+
+function changeRoboticonDisplayMode() {
+  var mode = selectRoboticonMode.value;
+  RobotIcon.changeDisplayMode(mode);
+  sendChannel.send('ICOMOD:' + mode);
 }
 
 function sendChangeMode(mode) {
