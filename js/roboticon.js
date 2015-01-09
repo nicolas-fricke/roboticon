@@ -133,7 +133,6 @@ var RobotIcon = (function () {
   }
 
   function clearBlinkingTimeouts() {
-    console.log('cleared');
     clearTimeout(blinkingTimeout);
   }
 
@@ -165,7 +164,6 @@ var RobotIcon = (function () {
         blinkEyesInIntervals,
         newBlinkingInterval ? blinkingInterval / 2 : blinkingInterval
       );
-    console.log('set');
   }
 
   function parseAndApplyJson(json, duration) {
