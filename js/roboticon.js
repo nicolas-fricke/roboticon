@@ -279,6 +279,20 @@ var RobotIcon = (function () {
     });
   }
 
+  function displayWholeFace() {
+    snap.attr({
+      viewBox: '0 0 291 336'
+    })
+  }
+
+  function displayEyesOnly() {
+    snap.attr({
+      viewBox: '73 110 146 168'
+    })
+  }
+
+  function getSnapObj() { return snap; }
+
   function getFace() {
     return face;
   }
@@ -287,6 +301,11 @@ var RobotIcon = (function () {
     var faceContainer = $('.roboticon');
     faceContainer.height(faceContainer.parent().height());
     snap = Snap('.roboticon');
+    snap.attr({
+      height: faceContainer.parent().height(),
+      // Widescreen format: 16 x 9
+      width:  Math.floor(faceContainer.parent().height() / 9 * 16),
+    });
     setFaces();
     updateBlinkingInterval(blinkingInterval);
   }
@@ -302,6 +321,8 @@ var RobotIcon = (function () {
     // animateEyebrowsRotation: animateEyebrowsRotation,
     animateEyelids: animateEyelids,
     animateMouth: animateMouth,
+    displayWholeFace: displayWholeFace,
+    displayEyesOnly: displayEyesOnly,
     updateBlinkingInterval: updateBlinkingInterval,
     __getInternalFace__: getFace
   };
