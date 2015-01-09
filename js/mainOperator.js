@@ -1013,7 +1013,7 @@ function playSoundBeat() {
   		intensitySlider.disabled = false;
   		intensitySlider.style.background = "#1E90FF";
   		intensityLabel.style.color = "black";
-      $(selectRoboticonMode).show();
+      $(selectRoboticonMode).show().val('whole_face');
   		localVideo.style.display = 'none';
   		robotIcon.style.display = 'block';
       sendChangeMode(0);
